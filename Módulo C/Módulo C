@@ -1,0 +1,8 @@
+# Módulo C: Interfaz y Menús (El "Frontend" en Consola)
+
+Se encarga de todo lo que el usuario ve y lee.
+
+- **Menú Principal:** Mostrar opciones: Nueva Partida, Historial, Instrucciones, Salir.
+- **Imprimir Tablero:** Una función que "limpie" la pantalla y dibuje la matriz visible de forma bonita (con números de fila/columna).
+- **Instrucciones:** Mostrar el texto de ayuda en español e inglés.
+- **Captura de Datos:** Pedir el nombre del jugador y las coordenadas, validando que no metan letras.
