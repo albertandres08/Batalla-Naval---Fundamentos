@@ -1,0 +1,16 @@
+# Módulos del Sistema
+
+# Módulo A: Gestión del Tablero y Flota (El "Backend")
+
+Este es el núcleo lógico. Se encarga de la memoria y los datos.
+
+- **Inicialización de Matrices:** Crear la matriz lógica (donde están los barcos) y la matriz visible (lo que ve el usuario) llenas de "agua" inicialmente.
+- **Algoritmo de Colocación Aleatoria:** Esta es la parte más compleja (vale 2.0 puntos). Debe colocar la flota específica (1 Portaaviones, 2 Acorazados, 3 Submarinos, 4 Destructores) sin que se superpongan ni salgan del mapa.
+- **Validación de coordenadas:** Verificar si una coordenada (Fila/Columna) está dentro del rango 0-9.
+
+## Módulo: Persistencia (Archivos)
+
+Manejo del archivo historial.txt.
+
+- **Guardar Partida:** Al terminar, escribir: Nombre, Fecha, Intentos y Resultado.
+- **Leer Historial:** Mostrar los mejores puntajes desde el archivo en el menú principal.
