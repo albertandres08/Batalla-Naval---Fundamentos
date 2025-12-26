@@ -86,11 +86,12 @@ def tablero_sin_barcos(sin_flota):
     if sin_flota == 0:
         print("¡Felicidades! Has hundido toda la flota enemiga.")
         game_over = True
+        return game_over
         
     
 
 
-#-------------- PROGRAMA PRINCIPAL -----------------
+#-------------- PROGRAMA PRINCIPAL ----------------- (SOS)
 def main():
     tablero_agua = matriz_agua()
     for filas in tablero_agua:
