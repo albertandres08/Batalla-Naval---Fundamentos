@@ -76,6 +76,19 @@ def generar_flota_random(tablero, flota):
                 colocar_barco(tablero, f, c, orientacion, barco)
                 colocado = True
 
+#------------- FUNCION DE VERFIFICACION DE BARCO HUNDIDO ---------------           
+def barco_hundido(hundido,flota):
+    if hundido == 0:
+        print(f"!Excelente! Has hundido un {flota["nombre"]}")
+        
+#------------- FUNCION DE VERFIFICACION DE TABLERO SIN BARCOS ---------------           
+def tablero_sin_barcos(sin_flota):
+    if sin_flota == 0:
+        print("¡Felicidades! Has hundido toda la flota enemiga.")
+        game_over = True
+        
+    
+
 
 #-------------- PROGRAMA PRINCIPAL -----------------
 def main():
@@ -116,6 +129,3 @@ if __name__ == "__main__":
     main()
 
 print()
-
-
-    
