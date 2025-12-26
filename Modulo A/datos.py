@@ -35,17 +35,19 @@ hundido = 4  # El barco ya no existe
 
 # 5. Definición de la Flota (Módulo A: Backend)
 flota = [
-    {"nombre": "Portaaviones", "tamaño": 5, "simbolo": "P"},
-    {"nombre": "Acorazado",    "tamaño": 4, "simbolo": "A1"},
-    {"nombre": "Acorazado",    "tamaño": 4, "simbolo": "A2"},
-    {"nombre": "Submarino",    "tamaño": 3, "simbolo": "S1"},
-    {"nombre": "Submarino",    "tamaño": 3, "simbolo": "S2"},
-    {"nombre": "Submarino",    "tamaño": 3, "simbolo": "S3"},
-    {"nombre": "Destructor",   "tamaño": 2, "simbolo": "D1"},
-    {"nombre": "Destructor",   "tamaño": 2, "simbolo": "D2"},
-    {"nombre": "Destructor",   "tamaño": 2, "simbolo": "D3"},
-    {"nombre": "Destructor",   "tamaño": 2, "simbolo": "D4"}
+    {"nombre": "Portaaviones", "tamaño": 5, "simbolo": "P", "hundido": 5},
+    {"nombre": "Acorazado",    "tamaño": 4, "simbolo": "A1", "hundido": 4},
+    {"nombre": "Acorazado",    "tamaño": 4, "simbolo": "A2", "hundido": 4},
+    {"nombre": "Submarino",    "tamaño": 3, "simbolo": "S1", "hundido": 3},
+    {"nombre": "Submarino",    "tamaño": 3, "simbolo": "S2", "hundido": 3},
+    {"nombre": "Submarino",    "tamaño": 3, "simbolo": "S3", "hundido": 3},
+    {"nombre": "Destructor",   "tamaño": 2, "simbolo": "D1", "hundido": 2},
+    {"nombre": "Destructor",   "tamaño": 2, "simbolo": "D2", "hundido": 2},
+    {"nombre": "Destructor",   "tamaño": 2, "simbolo": "D3", "hundido": 2},
+    {"nombre": "Destructor",   "tamaño": 2, "simbolo": "D4", "hundido": 2}
 ]
+
+sin_flota = sum(barco["tamaño"] for barco in flota)  # Total de partes de barcos
 
 # 6. Rutas de Archivos (Persistencia)
 archivo_historial = "historial.txt"
