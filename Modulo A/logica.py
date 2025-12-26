@@ -91,7 +91,7 @@ def tablero_sin_barcos(sin_flota):
     
 
 
-#-------------- PROGRAMA PRINCIPAL ----------------- (SOS)
+#-------------- PROGRAMA PRINCIPAL ----------------- Lo continue en otro modulo por comodidad
 def main():
     tablero_agua = matriz_agua()
     for filas in tablero_agua:
@@ -130,3 +130,4 @@ if __name__ == "__main__":
     main()
 
 print()
+
