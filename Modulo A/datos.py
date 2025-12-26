@@ -1,14 +1,3 @@
-# ==========================================
-# CONFIGURACIÓN GENERAL DEL JUEGO (config.py)
-# ==========================================
-
-# 1. Dimensiones de la Pantalla (Estilo Vertical)
-ancho_ventana = 450
-alto_ventana = 800
-fps = 60
-
-# 2. Colores (Formato RGB)
-color_fondo = (30, 30, 30)      # Gris muy oscuro
 color_agua = (52, 152, 219)     # Azul claro
 color_barco = (127, 140, 141)   # Gris metálico
 color_tocado = (231, 76, 60)    # Rojo
@@ -24,7 +13,7 @@ margen_x = 25      # Espacio a la izquierda de la grilla
 margen_y = 150     # Espacio arriba para poner títulos/menús
 
 # 4. Estados de las Celdas (Lo que hay en la matriz)
-agua = 0
+agua = "🌊"
 Portaaviones = "P"
 Acorazados = "A"
 Submarino = "S"
