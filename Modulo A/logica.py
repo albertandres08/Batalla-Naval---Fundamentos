@@ -79,7 +79,7 @@ def generar_flota_random(tablero, flota):
 #------------- FUNCION DE VERFIFICACION DE BARCO HUNDIDO ---------------           
 def barco_hundido(hundido,flota):
     if hundido == 0:
-        print(f"!Excelente! Has hundido un {flota["nombre"]}")
+        print(f"!Excelente! Has hundido un {flota['nombre']}")
         
 #------------- FUNCION DE VERFIFICACION DE TABLERO SIN BARCOS ---------------           
 def tablero_sin_barcos(sin_flota):
@@ -119,7 +119,7 @@ def main():
     print()
     
     mi_tablero = matriz_agua() # Creamos el tablero del usuario "vacio"(lleno de pura agua[0])
-    generar_flota_random(mi_tablero) #Llenamos el tablero con la flota
+    generar_flota_random(mi_tablero, datos.flota) #Llenamos el tablero con la flota
     
     print("Tu tablero con barcos:")
     for fila in mi_tablero:

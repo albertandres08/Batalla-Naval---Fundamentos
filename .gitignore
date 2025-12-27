@@ -1,0 +1,12 @@
+# Archivos compilados de Python
+__pycache__/
+*.pyc
+
+# Entornos virtuales (donde instalan pygame)
+.venv/
+env/
+venv/
+ENV/
+
+# Archivos de configuración de VS Code (opcional, pero recomendado)
+.vscode/
