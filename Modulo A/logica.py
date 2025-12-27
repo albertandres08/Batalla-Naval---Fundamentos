@@ -11,14 +11,8 @@ def matriz_agua():
 
  #---------- FUNCION PARA GENERAR MATRIZ 10*10 DE DISPAROS---------------
 def matriz_disparos():
-    # El proceso es igual que la matriz_agua
-    tablero_disparos = []
-    for f in range(datos.filas):
-        fila = []
-        for c in range(datos.columnas):
-            fila.append(datos.agua) 
-        tablero_disparos.append(fila)
-    return tablero_disparos
+    # Creamos la matriz igual que la del agua, más corto y limpio
+    return [[datos.agua for _ in range(datos.columnas)] for _ in range(datos.filas)]
 
 
 #---------- FUNCION PARA VALIDAR LAS COORDENADAS DEL USUARIO ---------------
@@ -32,22 +26,22 @@ def coordenada_valida(f, c):
     
 #------------- FUNCION PARA ESCANEAR EL ESPACIO DISPONIBLE PARA LAS FLOTAS ---------------
 def posicion_valida(tablero, f, c, orientacion, tamaño):
-    #1. Verificar si se sale del tablero
-    if orientacion == "H": #si la orientacion es igual a "H"
-        if c + tamaño > datos.columnas:
+    # CASO HORIZONTAL
+    if orientacion == "H":
+        if c + tamaño > datos.columnas: # 1. Verificamos borde
             return False
-    else: #si la orientacion es igual a "V"
-        if f + tamaño > datos.filas:
-            return False
-
-    #2. Verificar si hay otros barcos en el camino
-    for i in range(tamaño):
-        if orientacion == "H":
+        for i in range(tamaño):         # 2. Verificamos si choca con otro barco
             if tablero[f][c + i] != datos.agua:
                 return False
-        else:
+                
+    # CASO VERTICAL
+    else:
+        if f + tamaño > datos.filas:    # 1. Verificamos borde
+            return False
+        for i in range(tamaño):         # 2. Verificamos si choca con otro barco
             if tablero[f + i][c] != datos.agua:
-                return False    
+                return False
+                
     return True
     #Retoraria True siempre, porque si cumple todas las viladaciones, las condiciones de esta funcion "posicion_valida()" no reotrnarian False.
     #En cambio, si no cumple una, retornaria minimo un False Y(AND) un True, lo que resultaria en que la funcion "posicion_valida()" por logica es igual a False
@@ -130,4 +124,3 @@ if __name__ == "__main__":
     main()
 
 print()
-
