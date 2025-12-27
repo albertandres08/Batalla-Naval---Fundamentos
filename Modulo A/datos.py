@@ -13,7 +13,7 @@ margen_x = 25      # Espacio a la izquierda de la grilla
 margen_y = 150     # Espacio arriba para poner títulos/menús
 
 # 4. Estados de las Celdas (Lo que hay en la matriz)
-agua = "🌊"
+agua = "~"
 Portaaviones = "P"
 Acorazados = "A"
 Submarino = "S"
