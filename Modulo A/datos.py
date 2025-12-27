@@ -24,19 +24,27 @@ hundido = 4  # El barco ya no existe
 
 # 5. Definición de la Flota (Módulo A: Backend)
 flota = [
-    {"nombre": "Portaaviones", "tamaño": 5, "simbolo": "P", "hundido": 5},
-    {"nombre": "Acorazado",    "tamaño": 4, "simbolo": "A1", "hundido": 4},
-    {"nombre": "Acorazado",    "tamaño": 4, "simbolo": "A2", "hundido": 4},
-    {"nombre": "Submarino",    "tamaño": 3, "simbolo": "S1", "hundido": 3},
-    {"nombre": "Submarino",    "tamaño": 3, "simbolo": "S2", "hundido": 3},
-    {"nombre": "Submarino",    "tamaño": 3, "simbolo": "S3", "hundido": 3},
-    {"nombre": "Destructor",   "tamaño": 2, "simbolo": "D1", "hundido": 2},
-    {"nombre": "Destructor",   "tamaño": 2, "simbolo": "D2", "hundido": 2},
-    {"nombre": "Destructor",   "tamaño": 2, "simbolo": "D3", "hundido": 2},
-    {"nombre": "Destructor",   "tamaño": 2, "simbolo": "D4", "hundido": 2}
+    # 1 Portaaviones de tamaño 4
+    {"nombre": "Portaaviones", "tamaño": 4, "simbolo": "P", "hundido": 4},
+    
+    # 2 Acorazados de tamaño 3
+    {"nombre": "Acorazado",    "tamaño": 3, "simbolo": "A1", "hundido": 3},
+    {"nombre": "Acorazado",    "tamaño": 3, "simbolo": "A2", "hundido": 3},
+    
+    # 3 Submarinos de tamaño 2
+    {"nombre": "Submarino",    "tamaño": 2, "simbolo": "S1", "hundido": 2},
+    {"nombre": "Submarino",    "tamaño": 2, "simbolo": "S2", "hundido": 2},
+    {"nombre": "Submarino",    "tamaño": 2, "simbolo": "S3", "hundido": 2},
+    
+    # 4 Destructores de tamaño 1
+    {"nombre": "Destructor",   "tamaño": 1, "simbolo": "D1", "hundido": 1},
+    {"nombre": "Destructor",   "tamaño": 1, "simbolo": "D2", "hundido": 1},
+    {"nombre": "Destructor",   "tamaño": 1, "simbolo": "D3", "hundido": 1},
+    {"nombre": "Destructor",   "tamaño": 1, "simbolo": "D4", "hundido": 1}
 ]
 
-sin_flota = sum(barco["tamaño"] for barco in flota)  # Total de partes de barcos
+# Calculamos automáticamente cuántas celdas de barco hay en total (Debe dar 20)
+sin_flota = sum(barco["tamaño"] for barco in flota)
 
-# 6. Rutas de Archivos (Persistencia)
+# 6. Rutas de Archivos (Persistencia) 
 archivo_historial = "historial.txt"
