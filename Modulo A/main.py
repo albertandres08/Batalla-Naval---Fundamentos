@@ -7,19 +7,19 @@ import logica
 pygame.init()
 
 # Colores RGB
-NEGRO = (0, 0, 0)
-BLANCO = (255, 255, 255)
-AZUL_MAR = (50, 150, 200)
+negro = (0, 0, 0)
+blanco = (255, 255, 255)
+azul= (50, 150, 200)
 
 # Tamaño de la celda y margen
-TAMANO_CELDA = 40
-MARGEN = 5
+tamaño_celda = 40
+margen = 5
 
 # Tamaño de la pantalla segun el archivo datos.py
-ANCHO_PANTALLA = (TAMANO_CELDA + MARGEN) * datos.columnas + MARGEN
-ALTO_PANTALLA = (TAMANO_CELDA + MARGEN) * datos.filas + MARGEN
+ancho_pantalla = (tamaño_celda + margen) * datos.columnas + margen
+alto_pantalla = (tamaño_celda + margen) * datos.filas + margen
 
-ventana = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
+ventana = pygame.display.set_mode((ancho_pantalla, alto_pantalla))
 pygame.display.set_caption("Batalla Naval")
 
 # --- BUCLE PRINCIPAL DEL JUEGO ---
@@ -37,18 +37,18 @@ def main():
                 corriendo = False
 
         # 2. Dibujar en pantalla
-        ventana.fill(NEGRO) # Fondo negro
+        ventana.fill(negro) # Fondo negro
 
         # Dibujar la cuadrícula
         for f in range(datos.filas):
             for c in range(datos.columnas):
-                color = AZUL_MAR
+                color = azul
                 
                 # Coordenadas para dibujar el rectanguito
-                x = (MARGEN + TAMANO_CELDA) * c + MARGEN
-                y = (MARGEN + TAMANO_CELDA) * f + MARGEN
+                x = (margen + tamaño_celda) * c + margen
+                y = (margen + tamaño_celda) * f + margen
                 
-                pygame.draw.rect(ventana, color, [x, y, TAMANO_CELDA, TAMANO_CELDA])
+                pygame.draw.rect(ventana, color, [x, y, tamaño_celda, tamaño_celda])
 
         # 3. Actualizar la pantalla
         pygame.display.flip()
