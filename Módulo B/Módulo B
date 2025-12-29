@@ -1,7 +1,0 @@
-# Módulo B: Mecánica de Juego (La Lógica de Turnos)
-
-Controla lo que pasa cuando el usuario juega.
-
-- **Procesar Disparo:** Recibe las coordenadas del usuario, verifica en la matriz lógica y devuelve el resultado: "AGUA", "TOCADO" o "HUNDIDO".
-- **Actualizar Tableros:** Si el usuario acierta, marcar la matriz visible con *; si falla, marcar con X.
-- **Verificar Victoria:** Revisar si todos los barcos de la flota han sido hundidos para terminar el juego.
