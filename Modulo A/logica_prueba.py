@@ -52,55 +52,55 @@ def main():
             
                 if logica.coordenada_valida(f, c):
                     tablero_disparos[f][c] = 2 #Registramos el disparo
-                if cpu_tablero[f][c] != "🌊":
-                    print("\n¡BOOM! Le diste a un barco. 💥")#Como le dio, se modifican los valores en el tablero de disparos del ususario 
-                    tablero_disparos[f][c] = "💥"
-                    cpu_tablero[f][c] = "💥"
-                    simbolo = cpu_tablero[f][c]
-                    for barco in datos.flota:
-                        if barco["simbolo"] == simbolo:
-                            barco["hundido"] -= 1#Se modifica el valor de hundido para el barco especifico
-                            datos.sin_flota -= 1#Se modifica el valor de hundido para todos los barcos
-                            logica.barco_hundido(barco["hundido"], barco)#Verfificando que el barco no este hundido
-                            break
-                else:
-                    print("\n¡FALLIDO! Diste con el agua. 🌊✖️")#Si fallo, se modifican tambien los valores en el tablero de disparos del ususario
-                    tablero_disparos[f][c] = "✖️"
-                    cpu_tablero[f][c] = "✖️"
-                valido = True#Esto rompe el bucle while de validacion de inputs
-                
-                if logica.tablero_sin_barcos(datos.sin_flota):
-                        print("\n!GAME OVER!, !YOU WIN!\n")#Veridicacion de Victoria del Usuario
-                else:
-                    #Mostrando los disparos del Usuario
-                    print(f"\nAsi va tu escaner de disparos, {name}:\n")
-                    for fila in tablero_disparos:
-                        print(fila)
-                    print()
-                    #Mostrando el tablero de la CPU modificado para verificar mas rapido(haciendo trampa)
-                    print(f"\nAsi va el tablero de la CPU:\n")
-                    for fila in cpu_tablero:
-                        print(fila)
-                    print()
+                    if cpu_tablero[f][c] != "🌊":
+                        print("\n¡BOOM! Le diste a un barco. 💥")#Como le dio, se modifican los valores en el tablero de disparos del ususario 
+                        tablero_disparos[f][c] = "💥"
+                        cpu_tablero[f][c] = "💥"
+                        simbolo = cpu_tablero[f][c]
+                        for barco in datos.flota:
+                            if barco["simbolo"] == simbolo:
+                                barco["hundido"] -= 1#Se modifica el valor de hundido para el barco especifico
+                                datos.sin_flota -= 1#Se modifica el valor de hundido para todos los barcos
+                                logica.barco_hundido(barco["hundido"], barco)#Verfificando que el barco no este hundido
+                                break
+                    else:
+                        print("\n¡FALLIDO! Diste con el agua. 🌊✖️")#Si fallo, se modifican tambien los valores en el tablero de disparos del ususario
+                        tablero_disparos[f][c] = "✖️"
+                        cpu_tablero[f][c] = "✖️"
+                    valido = True#Esto rompe el bucle while de validacion de inputs
                     
-                print("\n!Cuidado! Ahora es el turno de la CPU.\n")
-                f = random.randint(0, datos.filas - 1)
-                c = random.randint(0, datos.columnas - 1)#La Cpu ataca a lo random(Facil)
-                if mi_tablero[f][c] != "🌊":
-                    simbolo = mi_tablero[f][c]
-                    print(f"La CPU ha atacado la posición ({f}, {c}) y te ha dado. 💥\n")
-                    cpu_tablero_disparos[f][c] = "💥"
-                    for barco in datos.flota:
-                        if barco["simbolo"] == simbolo:
-                            barco["hundido"] -= 1
-                            logica.barco_hundido(barco["hundido"], barco)
-                            break
-                else:
-                    print(f"La CPU ha atacado la posición ({f}, {c}) y ha fallado. 🌊✖️\n")
-                    cpu_tablero_disparos[f][c] = "✖️"
-                            #Hasta aca la CPU indica que coordenada ataco y si le dio o no
-                if logica.tablero_sin_barcos(datos.sin_flota):
-                    print("\n!GAME OVER!, !YOU LOST!\n")#Veridicacion de Victoria de la CPU
+                    if logica.tablero_sin_barcos(datos.sin_flota):
+                            print("\n!GAME OVER!, !YOU WIN!\n")#Veridicacion de Victoria del Usuario
+                    else:
+                        #Mostrando los disparos del Usuario
+                        print(f"\nAsi va tu escaner de disparos, {name}:\n")
+                        for fila in tablero_disparos:
+                            print(fila)
+                        print()
+                        #Mostrando el tablero de la CPU modificado para verificar mas rapido(haciendo trampa)
+                        print(f"\nAsi va el tablero de la CPU:\n")
+                        for fila in cpu_tablero:
+                            print(fila)
+                        print()
+                        
+                    print("\n!Cuidado! Ahora es el turno de la CPU.\n")
+                    f = random.randint(0, datos.filas - 1)
+                    c = random.randint(0, datos.columnas - 1)#La Cpu ataca a lo random(Facil)
+                    if mi_tablero[f][c] != "🌊":
+                        simbolo = mi_tablero[f][c]
+                        print(f"La CPU ha atacado la posición ({f}, {c}) y te ha dado. 💥\n")
+                        cpu_tablero_disparos[f][c] = "💥"
+                        for barco in datos.flota:
+                            if barco["simbolo"] == simbolo:
+                                barco["hundido"] -= 1
+                                logica.barco_hundido(barco["hundido"], barco)
+                                break
+                    else:
+                        print(f"La CPU ha atacado la posición ({f}, {c}) y ha fallado. 🌊✖️\n")
+                        cpu_tablero_disparos[f][c] = "✖️"
+                                #Hasta aca la CPU indica que coordenada ataco y si le dio o no
+                    if logica.tablero_sin_barcos(datos.sin_flota):
+                        print("\n!GAME OVER!, !YOU LOST!\n")#Veridicacion de Victoria de la CPU
             except ValueError:
                 print("Error: ¡Debes ingresar un número entero!")#Error que daria si el usuario ingresa al que no sea un entero, y como valido es igual a False aun, se seguiria pidiendo una coordenada valida
     
