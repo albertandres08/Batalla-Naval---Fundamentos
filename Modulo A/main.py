@@ -1,12 +1,10 @@
+#Importando todas las librerias necesarias
 import pygame
 import sys
 import datos  
 import logica
 import copy
-import random #Importando todas las librerias necesarias
-
-# --- CONFIGURACIÓN INICIAL DEL PYGAME ---
-pygame.init()
+import random 
 
 #Colores
 NEGRO = (0, 0, 0)
@@ -34,18 +32,6 @@ ALTO_PANTALLA = (ALTO_TABLERO * 2) + ESPACIO_MEDIO #Con dicha formula se toma en
 # Calculamos dónde empieza a dibujarse el tablero de abajo
 INICIO_Y_JUGADOR = ALTO_TABLERO + ESPACIO_MEDIO
 
-ventana = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
-pygame.display.set_caption("Batalla Naval - JUGADOR vs BOT") #Declarando la pantalla con las medidas y el titulo de la ventana
-
-#NOta: Asegúrarse de poner el nombre exacto de tu archivo (ej. "fondo.jpg")
-# -------- FUENTE(TIPOGRAFIA) ---------
-fuente = pygame.font.SysFont("Bodoni MT", 22, bold=True)
-
-# --- SONIDOS ---
-pygame.mixer.init()#Se declaran los sonidos que vamos a usar
-sonido_boom = pygame.mixer.Sound("bomba.mp3")
-sonido_agua = pygame.mixer.Sound("splash.mp3")
-
 # --- CARGAR IMÁGENES ---
 #NOTA: los achivos e imagenes .AVIF no se ejecutan bien en PYGAME
 #fondo_img = pygame.image.load("fondo_playa.jpg") 
@@ -53,6 +39,20 @@ sonido_agua = pygame.mixer.Sound("splash.mp3")
 
 # ------- PROGRAMA PRINCIPAL -------- 
 def main():
+    # --- CONFIGURACIÓN INICIAL DEL PYGAME ---
+    pygame.init()
+
+    # -------- FUENTE(TIPOGRAFIA) ---------
+    fuente = pygame.font.SysFont("Bodoni MT", 22, bold=True)
+
+    ventana = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
+    pygame.display.set_caption("Batalla Naval - JUGADOR vs BOT") #Declarando la pantalla con las medidas y el titulo de la ventana
+
+    # --- SONIDOS ---
+    #pygame.mixer.init()#Se declaran los sonidos que vamos a usar
+    #sonido_boom = pygame.mixer.Sound("bomba.mp3")
+    #sonido_agua = pygame.mixer.Sound("splash.mp3")
+
     reloj = pygame.time.Clock()
     
     # --- SETUP DEL JUGADOR (ABAJO EN LA VENTANA) ---
@@ -94,14 +94,14 @@ def main():
                             #Procesar disparo al enemigo
                             if contenido == datos.agua: #Si el contenido es igual a Agua se toma en cuenta como fallo
                                 tablero_enemigo[fila][col] = datos.fallo
-                                sonido_agua.play() #Se reporduce el sonido de agua
+                                #sonido_agua.play() #Se reporduce el sonido de agua
                                 mensaje = "¡FALLASTE! Turno del Bot..."
                                 #pygame.time.delay(1000) #Pequeña pausa para que se note que "piensa"
                                 turno_jugador = False #Pasamos turno por el fallo
                             else:
                                 tablero_enemigo[fila][col] = datos.tocado #Si no es ninguna de las anterirores entonces es un barco y se reproduce el sonido
                                 mensaje = "¡IMPACTO! Sigue disparando."
-                                sonido_boom.play()
+                                #sonido_boom.play()
                                     
                                 #Igualamos la variable simbolo para ver que habia en la celda
                                 simbolo = contenido 
