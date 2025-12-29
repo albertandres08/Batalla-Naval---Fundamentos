@@ -191,7 +191,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-ventana = pygame.display.set_mode((ancho_pantalla, alto_pantalla))
+ventana = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
 pygame.display.set_caption("Batalla Naval")
 
 # --- BUCLE PRINCIPAL DEL JUEGO ---
@@ -209,18 +209,18 @@ def main():
                 corriendo = False
 
         # 2. Dibujar en pantalla
-        ventana.fill(negro) # Fondo negro
+        ventana.fill(NEGRO) # Fondo negro
 
         # Dibujar la cuadrícula
         for f in range(datos.filas):
             for c in range(datos.columnas):
-                color = azul
+                color = AZUL_MAR
                 
                 # Coordenadas para dibujar el rectanguito
-                x = (margen + tamaño_celda) * c + margen
-                y = (margen + tamaño_celda) * f + margen
-                
-                pygame.draw.rect(ventana, color, [x, y, tamaño_celda, tamaño_celda])
+                x = (MARGEN + TAMANO_CELDA) * c + MARGEN
+                y = (MARGEN + TAMANO_CELDA) * f + MARGEN
+
+                pygame.draw.rect(ventana, color, [x, y, TAMANO_CELDA, TAMANO_CELDA])
 
         # 3. Actualizar la pantalla
         pygame.display.flip()
