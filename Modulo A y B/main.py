@@ -16,6 +16,12 @@ AZUL_MAR = (50, 150, 200)
 TAMANO_CELDA = 40 
 MARGEN = 5
 
+#INICIAR EL MIXER Y CARGAR SONIDOS
+pygame.mixer.init()
+#Declarando los Sonidos
+sonido_boom = pygame.mixer.Sound("explosion.mp3")
+sonido_agua = pygame.mixer.Sound("splash.mp3")
+
 # --- BUCLE PRINCIPAL DEL JUEGO ---
 def main():
     # 1. SETUP DE DATOS
@@ -76,10 +82,12 @@ def main():
                         elif contenido == datos.agua:
                             mensaje_juego = "¡AGUA! No había nada." 
                             tablero_logico[fila_clic][columna_clic] = datos.fallo
+                            sonido_agua.play()
                         
                         # C. ¡Barco!
                         else:
                             mensaje_juego = "¡IMPACTO CONFIRMADO! 💥"
+                            sonido_boom.play()
                             
                             # Buscamos qué barco tocamos para restarle vida
                             for barco in flota_viva:
