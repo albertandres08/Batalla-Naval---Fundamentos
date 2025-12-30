@@ -1,18 +1,18 @@
 import pygame
 import sys
-import datos  
+import datos   
 import logica
 import copy
 
 # --- CONFIGURACIÓN INICIAL ---
 pygame.init()
 
-#Colores RGB
+# Colores RGB
 NEGRO = (0, 0, 0)
 BLANCO = (255, 255, 255)
 AZUL_MAR = (50, 150, 200)
 
-#Tamaño de la celda y margen
+# Tamaño de la celda y margen
 TAMANO_CELDA = 40 
 MARGEN = 5
 
@@ -23,7 +23,8 @@ def main():
     flota_viva = copy.deepcopy(datos.flota)
     
     # Duplicamos el valor de datos sin flota para no modificar el original
-    flota_hundida = datos.sin_flota
+    # Asumo que datos.sin_flota es el total de vidas/aciertos necesarios
+    vidas_restantes = datos.sin_flota 
 
     # 2. SETUP DE VENTANA
     # Calculamos ancho y alto, pero sumamos 100 pixeles extra abajo para el texto
@@ -44,8 +45,9 @@ def main():
     
     # Flota en el Tablero del Usuario (Usando la copia flota_viva)
     logica.generar_flota_random(tablero_logico, flota_viva)
-    en_juego = True
+    
     corriendo = True
+    
     while corriendo:
         # 1. Manejo de eventos
         for evento in pygame.event.get():
@@ -68,7 +70,7 @@ def main():
 
                         # A. ¿Repetido?
                         if contenido == datos.tocado or contenido == datos.fallo:
-                            mensaje_juego = "¡Ya disparaste ahí! Busca otro sitio." # Actualizamos mensaje
+                            mensaje_juego = "¡Ya disparaste ahí! Busca otro sitio." 
 
                         # B. ¿Agua?
                         elif contenido == datos.agua:
@@ -79,20 +81,25 @@ def main():
                         else:
                             mensaje_juego = "¡IMPACTO CONFIRMADO! 💥"
                             
+                            # Buscamos qué barco tocamos para restarle vida
                             for barco in flota_viva:
                                 if barco["simbolo"] == contenido:
                                     barco["hundido"] -= 1
-                                    flota_hundida -= 1
                                     
+                                    # Si llega a 0 es que se hundió completo
                                     if barco["hundido"] == 0:
                                         mensaje_juego = f"¡HUNDISTE UN {barco['nombre'].upper()}! 💀"
                                     break 
 
+                            # Marcamos en el tablero visual
                             tablero_logico[fila_clic][columna_clic] = datos.tocado
-                            if flota_hundida == 0:
+                            
+                            # Restamos a la condición de victoria global
+                            vidas_restantes -= 1
+                            
+                            if vidas_restantes == 0:
                                 mensaje_juego = "¡VICTORIA! FLOTA HUNDIDA 🎉"
-                                #en_juego = False
-                                #corriendo = False # (Opcional: detener juego)
+                                # Aquí puedes poner corriendo = False si quieres que cierre al ganar
                     else:
                         pass # Clic fuera del tablero válido
                 else:
@@ -118,7 +125,7 @@ def main():
                     
                 pygame.draw.rect(ventana, color, [x, y, TAMANO_CELDA, TAMANO_CELDA])
 
-        # ### NUEVO: DIBUJAR EL TEXTO ABAJO ###
+        # ### DIBUJAR EL TEXTO ABAJO ###
         # Renderizamos el texto (Texto, Antialias, Color)
         texto_imagen = fuente.render(mensaje_juego, True, BLANCO)
         
