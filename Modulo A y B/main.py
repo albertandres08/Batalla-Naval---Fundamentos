@@ -10,7 +10,7 @@ pygame.init()
 # --- CONFIGURACIÓN INICIAL ---
 pygame.init()
 
-#Colores RGB RGB
+#Colores
 NEGRO = (0, 0, 0)
 BLANCO = (255, 255, 255)
 AZUL_MAR = (50, 150, 200)
@@ -27,6 +27,17 @@ MARGEN = 5
 
 # --- BUCLE PRINCIPAL DEL JUEGO ---
 def main():
+    # 1. SETUP DE DATOS
+    # Copia de la flota para hacer los cambios del propio juego alli
+    flota_viva = copy.deepcopy(datos.flota)
+    
+    # Duplicamos el valor de datos sin flota para no modificar el original
+    flota_hundida = datos.sin_flota
+
+    # 2. SETUP DE VENTANA
+    # Calculamos ancho y alto, pero sumamos 100 pixeles extra abajo para el texto
+    ANCHO_PANTALLA = (TAMANO_CELDA + MARGEN) * datos.columnas + MARGEN
+    ALTO_PANTALLA = ((TAMANO_CELDA + MARGEN) * datos.filas + MARGEN) + 100 # <--- +100 para texto
     # 1. SETUP DE DATOS
     # Copia de la flota para hacer los cambios del propio juego alli
     flota_viva = copy.deepcopy(datos.flota)
@@ -170,44 +181,13 @@ def main():
         # Dibujar la cuadrícula
         for f in range(datos.filas):
             for c in range(datos.columnas):
-                valor = tablero_logico[f][c]
-
-                if valor == datos.tocado:
-                    color = datos.color_tocado 
-                elif valor == datos.fallo:
-                    color = datos.color_fallo 
-                else:
-                    color = AZUL_MAR 
-                    
-                valor = tablero_logico[f][c]
-
-                if valor == datos.tocado:
-                    color = datos.color_tocado 
-                elif valor == datos.fallo:
-                    color = datos.color_fallo 
-                else:
-                    color = AZUL_MAR 
-                    
+                color = AZUL_MAR
+                
+                # Coordenadas para dibujar el rectanguito
                 x = (MARGEN + TAMANO_CELDA) * c + MARGEN
                 y = (MARGEN + TAMANO_CELDA) * f + MARGEN
-                                        
+
                 pygame.draw.rect(ventana, color, [x, y, TAMANO_CELDA, TAMANO_CELDA])
-
-        # ### NUEVO: DIBUJAR EL TEXTO ABAJO ###
-        # Renderizamos el texto (Texto, Antialias, Color)
-        texto_imagen = fuente.render(mensaje_juego, True, BLANCO)
-        
-        # Lo centramos o lo ponemos a la izquierda en la zona negra inferior
-        posicion_texto_y = ALTO_PANTALLA - 70 # Un poco hacia arriba del borde final
-        ventana.blit(texto_imagen, (20, posicion_texto_y))
-
-        # ### NUEVO: DIBUJAR EL TEXTO ABAJO ###
-        # Renderizamos el texto (Texto, Antialias, Color)
-        texto_imagen = fuente.render(mensaje_juego, True, BLANCO)
-        
-        # Lo centramos o lo ponemos a la izquierda en la zona negra inferior
-        posicion_texto_y = ALTO_PANTALLA - 70 # Un poco hacia arriba del borde final
-        ventana.blit(texto_imagen, (20, posicion_texto_y))
 
         # 3. Actualizar la pantalla
         pygame.display.flip()
