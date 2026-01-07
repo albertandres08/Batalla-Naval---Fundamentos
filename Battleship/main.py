@@ -4,6 +4,7 @@ import datos
 import logica
 import copy
 import datetime # <--- NUEVO: Para la fecha y hora
+import fases # <--- Procesos Nuevos
 
 # --- CONFIGURACIÓN INICIAL ---
 pygame.init()
@@ -12,6 +13,14 @@ pygame.init()
 NEGRO = (0, 0, 0)
 BLANCO = (255, 255, 255)
 AZUL_MAR = (50, 150, 200)
+
+#Fuente definida al inicio para que no haya problema si se usa en cualquier parte del programa
+fuente = pygame.font.SysFont("Arial", 22, bold=True)
+
+#Tamaño de todas las pantallas del juego
+ANCHO_PANTALLA = 960 #Cambio de resolución ---> Más espacio para texto y gráficos
+ALTO_PANTALLA = 540
+ventana = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
 
 # Tamaño de la celda y margen
 TAMANO_CELDA = 40 
@@ -29,6 +38,57 @@ except:
     sonido_boom = None
     sonido_agua = None
 
+# --- FUNCIÓN NUEVA: INGRESAR NOMBRE ---
+def ingresar_nombre(ventana): #Función para pedir nombre en pantalla
+
+    pygame.display.set_caption(f"Batalla Naval")
+
+    nombre = ""
+    escribiendo = True
+    
+    # Colores locales
+    COLOR_FONDO = (20, 20, 20)
+    COLOR_TEXTO = (0, 255, 200)
+
+    while escribiendo:
+        ventana.fill(COLOR_FONDO)
+        
+        # 1. Gestionar Eventos
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            
+            if evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_RETURN: # ENTER para terminar
+                    if len(nombre) > 0: # Solo salir si escribió algo
+                        escribiendo = False
+                elif evento.key == pygame.K_BACKSPACE: # Borrar
+                    nombre = nombre[:-1]
+                else:
+                    # Limitar a 12 caracteres para que quepa bien
+                    if len(nombre) < 12:
+                        nombre += evento.unicode
+
+        # 2. Renderizar Elementos
+        txt_instruccion = fuente.render("INGRESA TU NOMBRE Y PULSA ENTER:", True, (150, 150, 150))
+        txt_nombre = fuente.render(nombre, True, COLOR_TEXTO)
+        
+        # 3. Dibujar en la superficie
+        # Centramos el texto horizontalmente
+        rect_ins = txt_instruccion.get_rect(center=(ANCHO_PANTALLA//2, ALTO_PANTALLA//2 - 50))
+        rect_nom = txt_nombre.get_rect(center=(ANCHO_PANTALLA//2, ALTO_PANTALLA//2 + 20))
+        
+        ventana.blit(txt_instruccion, rect_ins)
+        ventana.blit(txt_nombre, rect_nom)
+
+        # Dibujar un rectangulo decorativo para el nombre
+        pygame.draw.rect(ventana, COLOR_TEXTO, (ANCHO_PANTALLA//2 - 150, ALTO_PANTALLA//2 - 10, 300, 60), 2)
+
+        pygame.display.flip()
+        
+    return nombre
+
 # --- FUNCIÓN NUEVA: GUARDAR HISTORIAL ---
 def guardar_historial(nombre, intentos, resultado):
     try:
@@ -44,10 +104,12 @@ def guardar_historial(nombre, intentos, resultado):
 
 # --- BUCLE PRINCIPAL DEL JUEGO ---
 def main():
-    # --- 1. PEDIR NOMBRE (Requerimiento PDF) ---
-    print("\n" + "="*30)
-    nombre_jugador = input(" INGRESA TU NOMBRE: ")
-    print("="*30 + "\n")
+    # --- 1. PEDIR NOMBRE (Requerimiento PDF) --- EDITADO
+    #print("\n" + "="*30) ### anterior
+    #nombre_jugador = input(" INGRESA TU NOMBRE: ") ### anterior
+    #print("="*30 + "\n") ### anterior
+    
+    nombre_jugador = ingresar_nombre(ventana)
 
     # 1. SETUP DE DATOS
     flota_viva = copy.deepcopy(datos.flota)
@@ -56,16 +118,17 @@ def main():
     # Variable para contar disparos (Requerimiento PDF)
     intentos_realizados = 0
 
-    # 2. SETUP DE VENTANA
-    ANCHO_PANTALLA = (TAMANO_CELDA + MARGEN) * datos.columnas + MARGEN
-    ALTO_PANTALLA = ((TAMANO_CELDA + MARGEN) * datos.filas + MARGEN) + 100 
+    # 2. SETUP DE VENTANA ### MOVIDO ARRIBA PARA MAYOR CONVENIENCIA + CAMBIAR RESOLUCIÓN
+    #ANCHO_PANTALLA = (TAMANO_CELDA + MARGEN) * datos.columnas + MARGEN ### anterior
+    #ALTO_PANTALLA = ((TAMANO_CELDA + MARGEN) * datos.filas + MARGEN) + 100 ### anterior
 
-    ventana = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
-    pygame.display.set_caption(f"Batalla Naval - Jugador: {nombre_jugador}")
+    #ventana = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
+
+    pygame.display.set_caption(f"Batalla Naval - Jugador: {nombre_jugador}") #Actualizar título
     
     reloj = pygame.time.Clock()
 
-    fuente = pygame.font.SysFont("Arial", 22, bold=True)
+    #fuente = pygame.font.SysFont("Arial", 22, bold=True) <--- MOVIDO AL INICIO
     mensaje_juego = "¡Busca los barcos enemigos! Haz clic." 
 
     # Generamos el tablero lógico
