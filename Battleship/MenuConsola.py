@@ -1,7 +1,7 @@
 import os
 import sys
 
-# --- MODULARIDAD (Requisito 4 del PDF) ---
+# --- MODULARIDAD  ---
 
 def limpiar_pantalla():
     """Limpia la consola según el sistema operativo."""
@@ -11,7 +11,7 @@ def limpiar_pantalla():
         os.system('clear')
 
 def mostrar_instrucciones():
-    """Muestra las reglas en español e inglés (Requisito 5.1.3)."""
+    """Muestra las reglas en español e inglés"""
     limpiar_pantalla()
     print("====================================================")
     print("      INSTRUCCIONES / GAME INSTRUCTIONS             ")
@@ -35,14 +35,14 @@ def mostrar_instrucciones():
     input("\nPresione Enter para volver al menú / Press Enter to return...")
 
 def ver_historial():
-    """Lee el archivo historial.txt (Requisito 5.1.2 y Persistencia)."""
+    """Lee el archivo historial.txt """
     limpiar_pantalla()
     print("====================================================")
     print("            HISTORIAL DE PUNTAJES                  ")
     print("====================================================")
     
     try:
-        # Intentamos abrir el archivo que mencionan tus compañeros
+        # Intentamos abrir el archivo 
         if os.path.exists("historial.txt"):
             with open("historial.txt", "r") as archivo:
                 contenido = archivo.read()
@@ -63,13 +63,13 @@ def iniciar_juego_consola():
     """Simulación del inicio del juego (Aquí se conectaría con la lógica)."""
     limpiar_pantalla()
     print("--- INICIANDO BATALLA NAVAL (MODO CONSOLA) ---")
-    # Aquí es donde pediríamos el nombre (Requisito 2.2)
+    # Aquí es donde pediríamos el nombre 
     nombre = input("Ingresa tu nombre: ")
     print(f"\n¡Bienvenido, {nombre}! Generando tablero de 10x10...")
     print("(Aquí se llamaría a las funciones de logica.py)")
     input("\nPresione Enter para volver (Funcionalidad en desarrollo)...")
 
-# --- MENÚ PRINCIPAL CÍCLICO (Requisito 3 y 5) ---
+# --- MENÚ PRINCIPAL CÍCLICO  ---
 
 def menu_principal():
     while True:
@@ -86,7 +86,7 @@ def menu_principal():
         
         opcion = input("Seleccione una opción (1-4): ")
         
-        # Validación de entrada (Requisito 3.1)
+        # Validación de entrada 
         if opcion == "1":
             iniciar_juego_consola()
         elif opcion == "2":
