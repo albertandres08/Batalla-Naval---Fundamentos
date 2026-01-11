@@ -3,7 +3,7 @@ import pygame
 # --- CONFIGURACIÓN DE LA CLASE "Botón" ---
 class Botón:
     # "self" se refiere a la clase, y las demas variables son parametros de cada boton.
-    # Cada clase va a pedir la ruta de la imagen del boton, la posición de la boton en la ventana, el tamaño del boton y el sonido que hara el boton al tocarlo.
+    # Cada botón va a pedir la ruta de la imagen del boton, la posición de la boton en la ventana, el tamaño del boton y el sonido que hara el boton al tocarlo.
     def __init__(self, ruta_imagen, posición, tamaño, ruta_sonido):
         self.imagen = pygame.image.load(ruta_imagen).convert_alpha()
         self.imagen = pygame.transform.smoothscale(self.imagen, tamaño) # .smoothscale escala la imagen de forma suave al tamaño deseado
@@ -32,3 +32,4 @@ class Botón:
         if not mouse_presionado:
             self.pressed = False
         return False
+
