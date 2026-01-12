@@ -3,7 +3,8 @@ import sys
 import datos   
 import logica
 import copy
-import datetime # <--- NUEVO: Para la fecha y hora
+import datetime
+import os
 
 # --- CONFIGURACIÓN INICIAL ---
 pygame.init()
@@ -30,8 +31,8 @@ pygame.mixer.init()
 # Declarando los Sonidos
 # (Nota: Asegúrate de que los archivos estén en la carpeta)
 try:
-    sonido_boom = pygame.mixer.Sound("Battleship/assets/explosion.mp3")
-    sonido_agua = pygame.mixer.Sound("Battleship/assets/splash.mp3")
+    sonido_boom = pygame.mixer.Sound("explosion.mp3")
+    sonido_agua = pygame.mixer.Sound("splash.mp3")
 except:
     print("Advertencia: No se encontraron los audios. El juego seguirá sin sonido.")
     sonido_boom = None
@@ -192,7 +193,11 @@ def main():
                                     mensaje_juego = "¡VICTORIA! FLOTA HUNDIDA 🎉"
                                     # Guardamos la victoria
                                     guardar_historial(nombre_jugador, intentos_realizados, "GANO")
+
+                                    # 2. Verificar si entra al Hall de la Fama (NUEVA FUNCIÓN)
+                                    logica.guardar_mejor_puntaje(nombre_jugador, intentos_realizados)
                                     juego_terminado = True
+                                    #MEJORES PUNTAJES.TXT
                     else:
                         pass 
                 else:
