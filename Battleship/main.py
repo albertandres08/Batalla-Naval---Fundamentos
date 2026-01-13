@@ -31,8 +31,8 @@ pygame.mixer.init()
 # Declarando los Sonidos
 # (Nota: Asegúrate de que los archivos estén en la carpeta)
 try:
-    sonido_boom = pygame.mixer.Sound("explosion.mp3")
-    sonido_agua = pygame.mixer.Sound("splash.mp3")
+    sonido_boom = pygame.mixer.Sound("assets/explosion.mp3")
+    sonido_agua = pygame.mixer.Sound("assets/splash.mp3")
 except:
     print("Advertencia: No se encontraron los audios. El juego seguirá sin sonido.")
     sonido_boom = None
