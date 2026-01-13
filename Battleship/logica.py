@@ -1,8 +1,8 @@
 import datos
 import pygame
 import random
-
-#Responsable de este módulo: ALBERT
+from datetime import datetime 
+import os
 
  #---------- FUNCION PARA GENERAR MATRIZ 10*10 DE AGUA(0)---------------
 def matriz_agua(): 
@@ -82,45 +82,91 @@ def tablero_sin_barcos(sin_flota):
         game_over = True
         return game_over
         
-    
-
-
-#-------------- PROGRAMA PRINCIPAL ----------------- Lo continue en otro modulo por comodidad
-def main():
-    tablero_agua = matriz_agua()
-    for filas in tablero_agua:
-        print(filas)#Aca se llama a la funcion matriz_agua para recorrer sus filas y que se imprima en su formato, nose si se necesita que se imprima en la terminal pero por ciacaso =)
-    print()
+# --- GUARDAR HISTORIAL ---
+def guardar_historial(nombre, intentos, resultado):
+    try:
+        fecha = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # Formato exigido por el PDF: Nombre, Fecha, Intentos, Resultado
+        linea = f"JUGADOR: {nombre} | FECHA: {fecha} | INTENTOS: {intentos} | RESULTADO: {resultado}\n"
         
-    tablero_disparos = matriz_disparos()
+        with open("historial.txt", "a") as archivo:
+            archivo.write(linea)
+        print(f"--- Registro guardado: {resultado} ---")
+    except Exception as e:
+        print(f"Error guardando archivo: {e}")
+
+# ---------- FUNCION DE FILTRO PARA MEJORES PUNTAJES -------------
+def guardar_mejor_puntaje(nombre_jugador, intentos_realizados):
+    nombre_archivo = "mejores_puntajes.txt"
+    lista_puntajes = []
     
-    valido = False
-    while not valido:
-        try:
-            f = int(input("Fila (0-9): "))
-            c = int(input("Columna (0-9): "))
+    # Obtenemos la fecha y hora actual
+    fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # 1. LEER LOS PUNTAJES ANTERIORES (Parsing complejo)
+    if os.path.exists(nombre_archivo):
+        with open(nombre_archivo, "r", encoding="utf-8") as f:
+            lineas = f.readlines()
             
-            if coordenada_valida(f, c):
-                tablero_disparos[f][c] = 2 #Registramos el disparo
-                valido = True #Esto rompe el bucle while
-        except ValueError:
-            print("Error: ¡Debes ingresar un número entero!")#Error que se daria si el usuario ingresa al que no sea un entero, y como valido es igual a False aun, se seguiria pidiendo una coordenada valida
-    
-    print()        
-    # Imprimir el resultado final del tablaro de Disparos
-    for fila in tablero_disparos:
-        print(fila)
-    print()
-    
-    mi_tablero = matriz_agua() # Creamos el tablero del usuario "vacio"(lleno de pura agua[0])
-    generar_flota_random(mi_tablero, datos.flota) #Llenamos el tablero con la flota
-    
-    print("Tu tablero con barcos:")
-    for fila in mi_tablero:
-        print(fila)
+            for linea in lineas:
+                # Saltamos las líneas que no sean de datos (como el título)
+                if "TOP" not in linea:
+                    continue
+                
+                try:
+                    # El formato es: TOP 1. JUGADOR: Albert | FECHA: ... | INTENTOS: 46 | ...
+                    # Usamos split('|') para separar por las barras
+                    partes = linea.split("|")
+                    
+                    # Extraemos el nombre (limpiando el "TOP X. JUGADOR: ")
+                    parte_nombre = partes[0].split(":")[1].strip()
+                    
+                    # Extraemos la fecha
+                    parte_fecha = partes[1].split("FECHA:")[1].strip()
+                    
+                    # Extraemos los intentos (limpiando " INTENTOS: ")
+                    parte_intentos = int(partes[2].split(":")[1].strip())
+                    
+                    # Guardamos en nuestra lista temporal
+                    lista_puntajes.append({
+                        "nombre": parte_nombre,
+                        "fecha": parte_fecha,
+                        "intentos": parte_intentos
+                    })
+                except:
+                    pass # Si alguna línea está mal escrita, la ignoramos
 
-    
-if __name__ == "__main__":
-    main()
+    # 2. AGREGAR EL NUEVO JUGADOR A LA LISTA
+    lista_puntajes.append({
+        "nombre": nombre_jugador,
+        "fecha": fecha_actual,
+        "intentos": intentos_realizados
+    })
 
-print()
+    # 3. ORDENAR POR INTENTOS (Menor es mejor)
+    lista_puntajes.sort(key=lambda x: x['intentos'])
+
+    # 4. QUEDARSE SOLO CON LOS 3 MEJORES
+    top_3 = lista_puntajes[:3]
+
+    # 5. GUARDAR CON EL FORMATO BONITO Y TÍTULO
+    with open(nombre_archivo, "w", encoding="utf-8") as f:
+        f.write(" ===================== 🏆 MEJORES PUNTAJES 🏆 ===================== \n")
+        
+        # Escribimos cada jugador con su número de TOP (indice + 1)
+        for i, puntaje in enumerate(top_3):
+            # Aquí creamos la cadena exacta que pediste
+            linea_formateada = (
+                f"TOP {i+1}. JUGADOR: {puntaje['nombre']} | "
+                f"FECHA: {puntaje['fecha']} | "
+                f"INTENTOS: {puntaje['intentos']} | \n"
+            )
+            f.write(linea_formateada)
+            
+    print("¡Top 3 actualizado correctamente!")
+
+    #Creo que esto esta de más
+#if __name__ == "__main__":
+    #main()
+
+#print()
