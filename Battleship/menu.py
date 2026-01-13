@@ -21,7 +21,42 @@ HISTORIAL_img = Botón("assets/Boton-HISTORIAL.png", (480, 338), (231, 68), "ass
 INSTRUCCIONES_img = Botón("assets/Boton-INSTRUCCIONES.png", (480, 411), (231, 68), "assets/golpe_en_madera.mp3")
 SALIR_img = Botón("assets/Boton-SALIR.png", (480, 484), (231, 68), "assets/golpe_en_madera.mp3")
 
-# --- TEXTOS ---
+# --- TEXTOS Y FUNCIONES---
+def mostrar_historial():
+    """Nueva función para visualizar los mejores puntajes en pantalla"""
+    viendo = True
+    # Intentamos leer el archivo de mejores puntajes
+    try:
+        with open("mejores_puntajes.txt", "r", encoding="utf-8") as archivo:
+            lineas_historial = archivo.readlines()
+    except FileNotFoundError:
+        lineas_historial = ["No hay registros de puntajes aún."]
+
+    while viendo:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit(); sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key in [pygame.K_RETURN, pygame.K_ESCAPE]:
+                    viendo = False
+
+        ventana.blit(fondo_oscuro_img, (0, 0))
+        
+        y_temp = 50
+        # Renderizamos cada línea del archivo [cite: 1, 2, 3]
+        for linea in lineas_historial:
+            # Limpiamos saltos de línea para evitar caracteres extraños
+            linea_limpia = linea.strip()
+            texto_surface = main.fuente.render(linea_limpia, True, (255, 255, 255))
+            ventana.blit(texto_surface, (50, y_temp))
+            y_temp += 35 # Espaciado entre líneas
+            
+        # Mensaje de instrucción para volver
+        footer = main.fuente.render("PULSA ENTER PARA VOLVER AL MENÚ", True, (255, 255, 0))
+        ventana.blit(footer, (ANCHO_CENTRO := 300, 500))
+        
+        pygame.display.flip()
+
 lineas_es = [
     "MANUAL DE INSTRUCCIONES DE \"BATTLESHIP - BATALLA NAVAL\"",
     "OBJETIVO DEL JUEGO",
@@ -125,7 +160,7 @@ def mostrar_instrucciones():
             ventana.blit(texto_surface, (40, y_temp))
             y_temp += 30
             
-        footer = main.fuente.render(ayuda_txt, True, (200, 200, 0))
+        footer = main.fuente.render(ayuda_txt, True, (255, 255, 0))
         ventana.blit(footer, (200, 500))
         pygame.display.flip()
 
@@ -154,8 +189,7 @@ def main_menu():
             except: pass
 
         if HISTORIAL_img.es_presionado():
-            print("------------------------------ HISTORIAL ------------------------------") 
-            print(historial)
+            mostrar_historial()
 
         if INSTRUCCIONES_img.es_presionado():
             mostrar_instrucciones()
