@@ -10,3 +10,6 @@ ENV/
 
 # Archivos de configuración de VS Code (opcional, pero recomendado)
 .vscode/
+
+#Archivo de historial (txt)
+historial.txt
