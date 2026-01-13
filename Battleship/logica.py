@@ -151,7 +151,7 @@ def guardar_mejor_puntaje(nombre_jugador, intentos_realizados):
 
     # 5. GUARDAR CON EL FORMATO BONITO Y TÍTULO
     with open(nombre_archivo, "w", encoding="utf-8") as f:
-        f.write(" ========================= 🏆 MEJORES PUNTAJES 🏆 ========================= \n")
+        f.write(" ===================== 🏆 MEJORES PUNTAJES 🏆 ===================== \n")
         
         # Escribimos cada jugador con su número de TOP (indice + 1)
         for i, puntaje in enumerate(top_3):
@@ -165,8 +165,8 @@ def guardar_mejor_puntaje(nombre_jugador, intentos_realizados):
             
     print("¡Top 3 actualizado correctamente!")
 
-    
-if __name__ == "__main__":
-    main()
+    #Creo que esto esta de más
+#if __name__ == "__main__":
+    #main()
 
-print()
+#print()
