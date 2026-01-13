@@ -3,6 +3,7 @@ import sys
 
 # Se cargan los recursos una vez
 fondo_barco = pygame.image.load("assets/Fondo-Barco.png")
+fondo_barco = pygame.transform.scale(fondo_barco, (940, 560))
 
 niña_normal = pygame.image.load("assets/niña_normal.png")
 niña_alegre = pygame.image.load("assets/niña_alegre.png")
@@ -90,3 +91,4 @@ def mostrar_escena(ventana, fuente, num_escena):
             
             pygame.display.flip()
             reloj.tick(30)
+
