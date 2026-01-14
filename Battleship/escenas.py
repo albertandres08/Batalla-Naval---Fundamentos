@@ -1,16 +1,16 @@
 import pygame
 import sys
 
-# --- DEFINICIÓN DE DIMENSIONES ---
+#--- Definiendo las Dimensiones ---
 ANCHO_PANTALLA = 960
 ALTO_PANTALLA = 540
 
-# Cargamos los recursos aquí una vez para que estén listos
-# Se carga la imagen y se le asigna el tamaño definido (940x560)
+#Cargamos los recursos aquí una vez para que estén listos
+#Se carga la imagen y se le asigna el tamaño definido (940x560)
 fondo_barco = pygame.image.load("assets/Fondo-Barco.png")
 fondo_barco = pygame.transform.scale(fondo_barco, (ANCHO_PANTALLA, ALTO_PANTALLA))
 
-# Imágenes de los personajes
+#Imágenes de los personajes
 niña_normal = pygame.image.load("assets/niña_normal.png")
 niña_alegre = pygame.image.load("assets/niña_alegre.png")
 niña_molesta = pygame.image.load("assets/niña_molesta.png")
@@ -41,7 +41,7 @@ dialogos = [
      "(Tenemos que acabar esto de una vez por todas. Protege las ODS 1, 2, 4, 8, 9, 10 y 16.)"]
 ]
 
-# Mapa de expresiones por escena y diálogo
+#Mapa de expresiones por escena y por ddiálogo
 imagenes = [
     [viejo_molesto, viejo_normal, viejo_alegre, viejo_alegre, viejo_normal, None],
     [niña_molesta, niña_normal, niña_normal, niña_alegre, niña_alegre, None],
@@ -58,7 +58,7 @@ def mostrar_escena(ventana, fuente, num_escena):
     corriendo_escena = True
 
     while corriendo_escena:
-        # 1. EVENTOS: Detectar el clic para avanzar
+        #1-EVENTOS: Detectar el clic para avanzar
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit(); sys.exit()
@@ -68,23 +68,23 @@ def mostrar_escena(ventana, fuente, num_escena):
                     corriendo_escena = False 
 
         if corriendo_escena:
-            # 2. DIBUJO
-            # Se dibuja el fondo ya escalado a 940x560
+            #2.DIBUJO
+            #Se dibuja el fondo ya escalado a 940x560
             ventana.blit(fondo_barco, (0, 0))
             
-            # Personaje
+            #Personaje
             personaje = imagenes[num_escena][clic_actual]
             if personaje:
                 ventana.blit(personaje, (500, 100))
 
-            # Cuadro de texto ajustado al ancho de 940
+            #Cuadro de texto ajustado al ancho de 940
             rect_txt = pygame.Rect(20, 420, 900, 120) 
             pygame.draw.rect(ventana, (30, 30, 30), rect_txt)
             pygame.draw.rect(ventana, (0, 255, 200), rect_txt, 3)
 
             ayuda_txt = ("Haga clic para continuar.")
 
-            # Texto
+            #Texto
             footer = fuente.render(ayuda_txt, True, (0, 255, 200))
             txt_surface = fuente.render(dialogos[num_escena][clic_actual], True, (255, 255, 255))
             ventana.blit(footer,(650,500))
