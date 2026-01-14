@@ -3,6 +3,8 @@ from botones import Botón
 
 # --- CONFIGURACIÓN INICIAL ---
 pygame.init()
+icono = pygame.image.load("assets/Icono-Battleship.png")
+pygame.display.set_icon(icono)
 ventana = pygame.display.set_mode((960,540))
 pygame.display.set_caption("Battleship: Batalla Naval")
 reloj = pygame.time.Clock()
@@ -251,3 +253,4 @@ def main_menu():
 if __name__ == "__main__":
     mostrar_introduccion()
     main_menu()
+
