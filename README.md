@@ -11,7 +11,7 @@ Este proyecto es una implementación del clásico juego "Battleship" utilizando 
 * `escenas.py`: **Narrativa**. Sistema para mostrar diálogos y personajes antes de los niveles.
 * `botones.py`: **Componentes UI**. Clase para crear botones interactivos con detección de mouse.
 * `historial.txt`: **Manejo de Archivos**. Archivo de texto plano donde se persiste el registro de partidas.
-
+* `logica_prueba.py`: **Version BETA**. Esta es una version inicial del juego que se hizo en la terminal, usada como guia para hacer el frontend del juego.
 ---
 
 ## Módulos del Sistema
