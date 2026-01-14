@@ -1,5 +1,6 @@
 import logica, datos, pygame, random
 
+#Esta es una version beta de nuestro juego en en terminal que se uso como guia para hacer el fronted y la interfaz del juego =)
 print("--------------------- BIENVENIDO A !BATALLA NAVAL! ---------------------\n!Ataca los barcos enemigos con coordenadas!\n")
 name = input("Con que nombre deseas registarte? ")#Bienvenida al Usuario y Registro
 
