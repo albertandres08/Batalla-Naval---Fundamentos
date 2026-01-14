@@ -13,10 +13,10 @@ pygame.init()
 # Colores RGB
 NEGRO = (0, 0, 0)
 BLANCO = (255, 255, 255)
-AZUL_MAR = (50, 150, 200)
+AZUL_MAR = (50, 150, 200, 180) # Añadimos un poco de transparencia
 VERDE_EXITO = (0, 200, 100)
 
-#Fuente
+# Fuente
 fuente = pygame.font.SysFont("Arial", 22, bold=True)
 fuente_grande = pygame.font.SysFont("Arial", 40, bold=True)
 
@@ -26,6 +26,33 @@ ventana = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
 
 TAMANO_CELDA = 40 
 MARGEN = 5
+
+# --- CARGA DE ACTIVOS VISUALES ADICIONALES ---
+
+# 1. Iconos de disparo (Tamaño 40x40 para encajar en la celda)
+explosion_img = pygame.image.load("assets/tablero_explosion.png") 
+explosion_img = pygame.transform.scale(explosion_img, (TAMANO_CELDA, TAMANO_CELDA))
+
+agua_img = pygame.image.load("assets/tablero_agua.png") 
+agua_img = pygame.transform.scale(agua_img, (TAMANO_CELDA+10, TAMANO_CELDA+10))
+
+# 2. Fondo (Usamos el mismo de escenas)
+fondo_juego = pygame.image.load("assets/Fondo-Barco.png")
+fondo_juego = pygame.transform.scale(fondo_juego, (ANCHO_PANTALLA, ALTO_PANTALLA))
+
+# 3. Importar personajes para el feedback visual
+personajes = {
+    "viejo": {
+        "normal": pygame.image.load("assets/viejo_normal.png"),
+        "alegre": pygame.image.load("assets/viejo_alegre.png"),
+        "molesto": pygame.image.load("assets/viejo_molesto.png")
+    },
+    "niña": {
+        "normal": pygame.image.load("assets/niña_normal.png"),
+        "alegre": pygame.image.load("assets/niña_alegre.png"),
+        "molesto": pygame.image.load("assets/niña_molesta.png")
+    }
+}
 
 # SONIDOS
 try:
@@ -46,8 +73,7 @@ def ingresar_nombre(ventana):
         ventana.fill(COLOR_FONDO)
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                pygame.quit(); sys.exit()
             if evento.type == pygame.KEYDOWN:
                 if evento.key == pygame.K_RETURN: 
                     if len(nombre) > 0: escribiendo = False
@@ -58,15 +84,12 @@ def ingresar_nombre(ventana):
 
         txt_instruccion = fuente.render("INGRESA TU NOMBRE Y PULSA ENTER:", True, (150, 150, 150))
         txt_nombre = fuente.render(nombre, True, COLOR_TEXTO)
-        
         rect_ins = txt_instruccion.get_rect(center=(ANCHO_PANTALLA//2, ALTO_PANTALLA//2 - 50))
         rect_nom = txt_nombre.get_rect(center=(ANCHO_PANTALLA//2, ALTO_PANTALLA//2 + 20))
-        
         ventana.blit(txt_instruccion, rect_ins)
         ventana.blit(txt_nombre, rect_nom)
         pygame.draw.rect(ventana, COLOR_TEXTO, (ANCHO_PANTALLA//2 - 150, ALTO_PANTALLA//2 - 10, 300, 60), 2)
         pygame.display.flip()
-        
     return nombre
 
 def guardar_historial(nombre, intentos, resultado):
@@ -78,7 +101,6 @@ def guardar_historial(nombre, intentos, resultado):
     except Exception as e:
         print(f"Error guardando archivo: {e}")
 
-# --- BUCLE PRINCIPAL DEL JUEGO ---
 def main():
     nombre_jugador = ingresar_nombre(ventana)
     pygame.display.set_caption(f"Batalla Naval - Jugador: {nombre_jugador}")
@@ -87,10 +109,8 @@ def main():
     max_escenas = 3    
     
     while True:
-        # 1. MOSTRAR HISTORIA
         escenas.mostrar_escena(ventana, fuente, escena_actual)
 
-        # 2. SETUP NIVEL
         flota_viva = copy.deepcopy(datos.flota)
         vidas_restantes = datos.sin_flota 
         intentos_realizados = 0
@@ -99,12 +119,23 @@ def main():
 
         mensaje_juego = f"Capítulo {escena_actual + 1}: ¡Busca los barcos enemigos!" 
         
+        # Variables para efectos visuales
+        efecto_icono = None
+        pos_efecto = (0, 0)
+        tiempo_efecto = 0  # Guardará el momento en que se activó
+        duracion_visual = 800 # Milisegundos que dura el icono y la expresión
+        expresion_personaje = "normal"
+        
+        # Determinar qué personaje mostrar según el nivel
+        tipo_pj = "niña" if escena_actual == 1 else "viejo"
+
         reloj = pygame.time.Clock()
         corriendo_nivel = True
         juego_terminado = False 
         
-        # 3. JUGAR NIVEL
         while corriendo_nivel:
+            tiempo_actual = pygame.time.get_ticks()
+
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
                     if not juego_terminado:
@@ -115,8 +146,7 @@ def main():
                     if juego_terminado: continue 
 
                     posicion = pygame.mouse.get_pos()
-                    x_mouse = posicion[0]
-                    y_mouse = posicion[1]
+                    x_mouse, y_mouse = posicion
             
                     if y_mouse < (ALTO_PANTALLA - 100): 
                         fila_clic = (y_mouse - MARGEN) // (TAMANO_CELDA + MARGEN)
@@ -125,17 +155,24 @@ def main():
                         if logica.coordenada_valida(fila_clic, columna_clic):
                             contenido = tablero_logico[fila_clic][columna_clic]
 
-                            if contenido == datos.tocado or contenido == datos.fallo:
-                                mensaje_juego = "¡Ya disparaste ahí! Busca otro sitio." 
-                            else:
-                                intentos_realizados += 1 
+                            if contenido != datos.tocado and contenido != datos.fallo:
+                                intentos_realizados += 1
+                                tiempo_efecto = tiempo_actual # Iniciamos temporizador
+                                pos_efecto = (MARGEN + (TAMANO_CELDA + MARGEN) * columna_clic, 
+                                              MARGEN + (TAMANO_CELDA + MARGEN) * fila_clic)
+                                
                                 if contenido == datos.agua:
                                     mensaje_juego = "¡AGUA! No había nada." 
                                     tablero_logico[fila_clic][columna_clic] = datos.fallo
+                                    efecto_icono = agua_img
+                                    expresion_personaje = "alegre" # Se alegra si fallas
                                     if sonido_agua: sonido_agua.play()
                                 else:
                                     mensaje_juego = "¡IMPACTO CONFIRMADO! 💥"
+                                    efecto_icono = explosion_img
+                                    expresion_personaje = "molesto" # Se molesta si aciertas
                                     if sonido_boom: sonido_boom.play()
+                                    
                                     for barco in flota_viva:
                                         if barco["simbolo"] == contenido:
                                             barco["hundido"] -= 1
@@ -151,50 +188,67 @@ def main():
                                         guardar_historial(nombre_jugador, intentos_realizados, f"GANO NIVEL {escena_actual + 1}")
                                         logica.guardar_mejor_puntaje(nombre_jugador, intentos_realizados)
 
-            # DIBUJAR
-            ventana.fill(NEGRO) 
+            # Resetear expresión si pasó el tiempo
+            if tiempo_actual - tiempo_efecto > duracion_visual:
+                expresion_personaje = "normal"
+                efecto_icono = None
+
+            # --- DIBUJAR ---
+            # 1. Fondo
+            ventana.blit(fondo_juego, (0,0))
+            
+            # 2. Personaje (Feedback)
+            img_pj = personajes[tipo_pj][expresion_personaje]
+            ventana.blit(img_pj, (550, 100)) # Posicionado a la derecha del tablero
+
+            # 3. Tablero
             for f in range(datos.filas):
                 for c in range(datos.columnas):
                     valor = tablero_logico[f][c]
+                    x = (MARGEN + TAMANO_CELDA) * c + MARGEN
+                    y = (MARGEN + TAMANO_CELDA) * f + MARGEN
+                    
                     if valor == datos.tocado: color = datos.color_tocado 
                     elif valor == datos.fallo: color = datos.color_fallo 
                     else: color = AZUL_MAR 
-                    x = (MARGEN + TAMANO_CELDA) * c + MARGEN
-                    y = (MARGEN + TAMANO_CELDA) * f + MARGEN
+                    
+                    # Dibujar cuadro con borde para que se vea mejor sobre el fondo
                     pygame.draw.rect(ventana, color, [x, y, TAMANO_CELDA, TAMANO_CELDA])
+                    pygame.draw.rect(ventana, (255,255,255), [x, y, TAMANO_CELDA, TAMANO_CELDA], 1)
 
-            texto_imagen = fuente.render(mensaje_juego, True, BLANCO)
+            # 4. Dibujar Icono de efecto temporal
+            if efecto_icono and tiempo_actual - tiempo_efecto < duracion_visual:
+                ventana.blit(efecto_icono, pos_efecto)
+
+            # 5. UI (Textos)
+            # Fondo para los textos inferiores para legibilidad
+            pygame.draw.rect(ventana, (0,0,0,150), (0, ALTO_PANTALLA - 100, ANCHO_PANTALLA, 100))
+            
+            texto_imagen = fuente.render(mensaje_juego, True, (BLANCO))
             ventana.blit(texto_imagen, (20, ALTO_PANTALLA - 70))
             texto_intentos = fuente.render(f"Tiros: {intentos_realizados}", True, BLANCO)
             ventana.blit(texto_intentos, (ANCHO_PANTALLA - 120, ALTO_PANTALLA - 70))
-            texto_cap = fuente.render(f"CAPÍTULO {escena_actual + 1}", True, (100, 100, 100))
+            texto_cap = fuente.render(f"CAPÍTULO {escena_actual + 1}", True, (0, 0, 0))
             ventana.blit(texto_cap, (ANCHO_PANTALLA - 140, 20))
 
             pygame.display.flip()
             reloj.tick(60)
 
-            # TRANSICIÓN / FINAL
             if juego_terminado:
                 pygame.time.delay(2000)
                 escena_actual += 1
                 
-                # --- AQUÍ ESTÁ EL CAMBIO PRINCIPAL ---
                 if escena_actual >= max_escenas:
-                    # Mostrar pantalla final
                     ventana.fill(NEGRO)
                     txt_fin = fuente_grande.render("¡MISIÓN CUMPLIDA!", True, VERDE_EXITO)
                     txt_sub = fuente.render("Has salvado los ODS. Volviendo al menú...", True, BLANCO)
-                    
                     rect_fin = txt_fin.get_rect(center=(ANCHO_PANTALLA//2, ALTO_PANTALLA//2 - 20))
                     rect_sub = txt_sub.get_rect(center=(ANCHO_PANTALLA//2, ALTO_PANTALLA//2 + 30))
-                    
                     ventana.blit(txt_fin, rect_fin)
                     ventana.blit(txt_sub, rect_sub)
                     pygame.display.flip()
-                    
-                    pygame.time.delay(4000) # Esperar 4 segundos leyendo el mensaje
-                    
-                    return # <--- ESTO DEVUELVE AL MENÚ (sale de main)
+                    pygame.time.delay(4000) 
+                    return 
                 
                 corriendo_nivel = False 
 
