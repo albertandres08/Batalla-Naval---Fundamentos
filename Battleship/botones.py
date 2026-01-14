@@ -1,6 +1,6 @@
 import pygame
 
-# --- CONFIGURACIÓN DE LA CLASE "Botón" ---
+# --- CONFIGURACIÓN DE LA CLASE Boton ---
 class Botón:
     # "self" se refiere a la clase, y las demas variables son parametros de cada boton.
     # Cada botón va a pedir la ruta de la imagen del boton, la posición de la boton en la ventana, el tamaño del boton y el sonido que hara el boton al tocarlo.
