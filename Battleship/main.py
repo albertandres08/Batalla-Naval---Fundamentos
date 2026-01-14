@@ -13,6 +13,8 @@ ASSETS_DIR = os.path.join(BASE_DIR, "assets")
 
 # --- CONFIGURACIÓN INICIAL ---
 pygame.init()
+icono = pygame.image.load("assets/Icono-Battleship.png")
+pygame.display.set_icon(icono)
 
 # Colores RGB
 NEGRO = (0, 0, 0)
