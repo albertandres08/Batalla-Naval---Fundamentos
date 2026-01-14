@@ -1,3 +1,4 @@
+#Modulo donde se encuentran los datos que usamos para el jeugo
 color_agua = (52, 152, 219)     # Azul claro
 color_barco = (127, 140, 141)   # Gris metálico
 color_tocado = (231, 76, 60)    # Rojo
