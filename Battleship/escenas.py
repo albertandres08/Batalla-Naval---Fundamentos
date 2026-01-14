@@ -1,10 +1,5 @@
 import pygame
 import sys
-import os
-
-# --- CONFIGURACIÓN DE RUTAS ---
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ASSETS_DIR = os.path.join(BASE_DIR, "assets")
 
 # --- DEFINICIÓN DE DIMENSIONES ---
 ANCHO_PANTALLA = 960
@@ -12,16 +7,16 @@ ALTO_PANTALLA = 540
 
 # Cargamos los recursos aquí una vez para que estén listos
 # Se carga la imagen y se le asigna el tamaño definido (940x560)
-fondo_barco = pygame.image.load(os.path.join(ASSETS_DIR, "Fondo-Barco.png"))
+fondo_barco = pygame.image.load("assets/Fondo-Barco.png")
 fondo_barco = pygame.transform.scale(fondo_barco, (ANCHO_PANTALLA, ALTO_PANTALLA))
 
 # Imágenes de los personajes
-niña_normal = pygame.image.load(os.path.join(ASSETS_DIR, "niña_normal.png"))
-niña_alegre = pygame.image.load(os.path.join(ASSETS_DIR, "niña_alegre.png"))
-niña_molesta = pygame.image.load(os.path.join(ASSETS_DIR, "niña_molesta.png"))
-viejo_normal = pygame.image.load(os.path.join(ASSETS_DIR, "viejo_normal.png"))
-viejo_alegre = pygame.image.load(os.path.join(ASSETS_DIR, "viejo_alegre.png"))
-viejo_molesto = pygame.image.load(os.path.join(ASSETS_DIR, "viejo_molesto.png"))
+niña_normal = pygame.image.load("assets/niña_normal.png")
+niña_alegre = pygame.image.load("assets/niña_alegre.png")
+niña_molesta = pygame.image.load("assets/niña_molesta.png")
+viejo_normal = pygame.image.load("assets/viejo_normal.png")
+viejo_alegre = pygame.image.load("assets/viejo_alegre.png")
+viejo_molesto = pygame.image.load("assets/viejo_molesto.png")
 
 dialogos = [
     ["El trabajo honesto no es suficiente, solo los planes malvados nos traerán el exito.",
@@ -33,7 +28,7 @@ dialogos = [
     
     ["Puede que el plan anterior fracasara...",
      "Pero con mi nuevo invento cumpliremos todos nuestros objetivos.",
-     "He desarrollado un contaminante el cual solo podrá ser erradicado con mi formula secreta.",
+     "Desarrollé un contaminante el cual solo podrá ser erradicado con mi formula secreta.",
      "¡Si la vendo nos haremos millonarios! ¡Todos dependerán de nosotros!",
      "¿Qué importa si algunas cosechas se arruinan? O si alguien bebe esa agua...", 
      "(Esta vez protegeremos las ODS 3, 6, 12, 14, 15 y 17.)"],
@@ -87,10 +82,13 @@ def mostrar_escena(ventana, fuente, num_escena):
             pygame.draw.rect(ventana, (30, 30, 30), rect_txt)
             pygame.draw.rect(ventana, (0, 255, 200), rect_txt, 3)
 
+            ayuda_txt = ("Haga clic para continuar.")
+
             # Texto
+            footer = fuente.render(ayuda_txt, True, (0, 255, 200))
             txt_surface = fuente.render(dialogos[num_escena][clic_actual], True, (255, 255, 255))
+            ventana.blit(footer,(650,500))
             ventana.blit(txt_surface, (40, 450))
             
             pygame.display.flip()
             reloj.tick(30)
-
