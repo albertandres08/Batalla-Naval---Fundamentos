@@ -79,3 +79,4 @@ El proyecto implementa persistencia básica mediante lectura y escritura de arch
     ```bash
     python menu.py
     ```
+4. Ejecutar el juego desde la carpeta de "Battleship".
