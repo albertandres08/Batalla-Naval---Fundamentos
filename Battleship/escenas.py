@@ -1,5 +1,10 @@
 import pygame
 import sys
+import os
+
+# --- CONFIGURACIÓN DE RUTAS ---
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.join(BASE_DIR, "assets")
 
 # --- DEFINICIÓN DE DIMENSIONES ---
 ANCHO_PANTALLA = 960
@@ -7,16 +12,16 @@ ALTO_PANTALLA = 540
 
 # Cargamos los recursos aquí una vez para que estén listos
 # Se carga la imagen y se le asigna el tamaño definido (940x560)
-fondo_barco = pygame.image.load("assets/Fondo-Barco.png")
+fondo_barco = pygame.image.load(os.path.join(ASSETS_DIR, "Fondo-Barco.png"))
 fondo_barco = pygame.transform.scale(fondo_barco, (ANCHO_PANTALLA, ALTO_PANTALLA))
 
 # Imágenes de los personajes
-niña_normal = pygame.image.load("assets/niña_normal.png")
-niña_alegre = pygame.image.load("assets/niña_alegre.png")
-niña_molesta = pygame.image.load("assets/niña_molesta.png")
-viejo_normal = pygame.image.load("assets/viejo_normal.png")
-viejo_alegre = pygame.image.load("assets/viejo_alegre.png")
-viejo_molesto = pygame.image.load("assets/viejo_molesto.png")
+niña_normal = pygame.image.load(os.path.join(ASSETS_DIR, "niña_normal.png"))
+niña_alegre = pygame.image.load(os.path.join(ASSETS_DIR, "niña_alegre.png"))
+niña_molesta = pygame.image.load(os.path.join(ASSETS_DIR, "niña_molesta.png"))
+viejo_normal = pygame.image.load(os.path.join(ASSETS_DIR, "viejo_normal.png"))
+viejo_alegre = pygame.image.load(os.path.join(ASSETS_DIR, "viejo_alegre.png"))
+viejo_molesto = pygame.image.load(os.path.join(ASSETS_DIR, "viejo_molesto.png"))
 
 dialogos = [
     ["El trabajo honesto no es suficiente, solo los planes malvados nos traerán el exito.",

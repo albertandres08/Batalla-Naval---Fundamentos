@@ -4,6 +4,9 @@ import random
 from datetime import datetime 
 import os
 
+# --- CONFIGURACIÓN DE RUTAS ---
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
  #---------- FUNCION PARA GENERAR MATRIZ 10*10 DE AGUA(0)---------------
 def matriz_agua(): 
     return [[datos.agua for _ in range(datos.columnas)] for _ in range(datos.filas)] #Usando comprension de lista para generar la matriz con agua(0) y retornar el valor a main
@@ -89,7 +92,7 @@ def guardar_historial(nombre, intentos, resultado):
         # Formato exigido por el PDF: Nombre, Fecha, Intentos, Resultado
         linea = f"JUGADOR: {nombre} | FECHA: {fecha} | INTENTOS: {intentos} | RESULTADO: {resultado}\n"
         
-        with open("historial.txt", "a") as archivo:
+        with open(os.path.join(BASE_DIR, "historial.txt"), "a") as archivo:
             archivo.write(linea)
         print(f"--- Registro guardado: {resultado} ---")
     except Exception as e:
@@ -97,7 +100,7 @@ def guardar_historial(nombre, intentos, resultado):
 
 # ---------- FUNCION DE FILTRO PARA MEJORES PUNTAJES -------------
 def guardar_mejor_puntaje(nombre_jugador, intentos_realizados):
-    nombre_archivo = "mejores_puntajes.txt"
+    nombre_archivo = os.path.join(BASE_DIR, "mejores_puntajes.txt")
     lista_puntajes = []
     
     # Obtenemos la fecha y hora actual

@@ -1,25 +1,29 @@
 import pygame, sys, botones, main
+import os
 from botones import Botón 
+
+# --- CONFIGURACIÓN DE RUTAS ---
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.join(BASE_DIR, "assets")
 
 # --- CONFIGURACIÓN INICIAL ---
 pygame.init()
 ventana = pygame.display.set_mode((960,540))
 pygame.display.set_caption("Battleship: Batalla Naval")
 reloj = pygame.time.Clock()
-
 # --- CARGA DE RECURSOS ---
-fondo_img = pygame.image.load("assets/Fondo-Menu.png").convert()  
+fondo_img = pygame.image.load(os.path.join(ASSETS_DIR, "Fondo-Menu.png")).convert()  
 fondo_img = pygame.transform.scale(fondo_img, (960,540))
-fondo_oscuro_img = pygame.image.load("assets/Fondo-Oscuro-Menu.png").convert()   
+fondo_oscuro_img = pygame.image.load(os.path.join(ASSETS_DIR, "Fondo-Oscuro-Menu.png")).convert()   
 fondo_oscuro_img = pygame.transform.scale(fondo_oscuro_img, (960,540))
 
-logo_img = pygame.image.load("assets/Battleship-Logo.png").convert_alpha() 
+logo_img = pygame.image.load(os.path.join(ASSETS_DIR, "Battleship-Logo.png")).convert_alpha() 
 logo_img = pygame.transform.scale(logo_img, (455, 226))
 
-NUEVA_PARTIDA_img = Botón("assets/Boton-NUEVA PARTIDA.png", (480, 265), (231, 68), "assets/golpe_en_madera.mp3")
-HISTORIAL_img = Botón("assets/Boton-HISTORIAL.png", (480, 338), (231, 68), "assets/golpe_en_madera.mp3")
-INSTRUCCIONES_img = Botón("assets/Boton-INSTRUCCIONES.png", (480, 411), (231, 68), "assets/golpe_en_madera.mp3")
-SALIR_img = Botón("assets/Boton-SALIR.png", (480, 484), (231, 68), "assets/golpe_en_madera.mp3")
+NUEVA_PARTIDA_img = Botón(os.path.join(ASSETS_DIR, "Boton-NUEVA PARTIDA.png"), (480, 265), (231, 68), os.path.join(ASSETS_DIR, "golpe_en_madera.mp3"))
+HISTORIAL_img = Botón(os.path.join(ASSETS_DIR, "Boton-HISTORIAL.png"), (480, 338), (231, 68), os.path.join(ASSETS_DIR, "golpe_en_madera.mp3"))
+INSTRUCCIONES_img = Botón(os.path.join(ASSETS_DIR, "Boton-INSTRUCCIONES.png"), (480, 411), (231, 68), os.path.join(ASSETS_DIR, "golpe_en_madera.mp3"))
+SALIR_img = Botón(os.path.join(ASSETS_DIR, "Boton-SALIR.png"), (480, 484), (231, 68), os.path.join(ASSETS_DIR, "golpe_en_madera.mp3"))
 
 # --- TEXTOS Y FUNCIONES---
 def mostrar_historial():
@@ -27,7 +31,7 @@ def mostrar_historial():
     viendo = True
     # Intentamos leer el archivo de mejores puntajes
     try:
-        with open("mejores_puntajes.txt", "r", encoding="utf-8") as archivo:
+        with open(os.path.join(BASE_DIR, "mejores_puntajes.txt"), "r", encoding="utf-8") as archivo:
             lineas_historial = archivo.readlines()
     except FileNotFoundError:
         lineas_historial = ["No hay registros de puntajes aún."]
@@ -166,7 +170,7 @@ def mostrar_instrucciones():
 
 # Leer historial una vez al inicio
 try:
-    with open("historial.txt", "r") as archivo:
+    with open(os.path.join(BASE_DIR, "historial.txt"), "r") as archivo:
         historial = archivo.read()
 except:
     historial = "No hay historial aún."
@@ -183,7 +187,7 @@ def main_menu():
         if NUEVA_PARTIDA_img.es_presionado():
             main.main() 
             try:
-                with open("historial.txt", "r") as archivo:
+                with open(os.path.join(BASE_DIR, "historial.txt"), "r") as archivo:
                     global historial
                     historial = archivo.read()
             except: pass

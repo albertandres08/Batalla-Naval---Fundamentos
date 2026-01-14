@@ -7,6 +7,10 @@ import datetime
 import os
 import escenas
 
+# --- CONFIGURACIÓN DE RUTAS ---
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.join(BASE_DIR, "assets")
+
 # --- CONFIGURACIÓN INICIAL ---
 pygame.init()
 
@@ -30,34 +34,34 @@ MARGEN = 5
 # --- CARGA DE ACTIVOS VISUALES ADICIONALES ---
 
 # 1. Iconos de disparo (Tamaño 40x40 para encajar en la celda)
-explosion_img = pygame.image.load("assets/tablero_explosion.png") 
+explosion_img = pygame.image.load(os.path.join(ASSETS_DIR, "tablero_explosion.png")) 
 explosion_img = pygame.transform.scale(explosion_img, (TAMANO_CELDA, TAMANO_CELDA))
 
-agua_img = pygame.image.load("assets/tablero_agua.png") 
+agua_img = pygame.image.load(os.path.join(ASSETS_DIR, "tablero_agua.png")) 
 agua_img = pygame.transform.scale(agua_img, (TAMANO_CELDA+10, TAMANO_CELDA+10))
 
 # 2. Fondo (Usamos el mismo de escenas)
-fondo_juego = pygame.image.load("assets/Fondo-Barco.png")
+fondo_juego = pygame.image.load(os.path.join(ASSETS_DIR, "Fondo-Barco.png"))
 fondo_juego = pygame.transform.scale(fondo_juego, (ANCHO_PANTALLA, ALTO_PANTALLA))
 
 # 3. Importar personajes para el feedback visual
 personajes = {
     "viejo": {
-        "normal": pygame.image.load("assets/viejo_normal.png"),
-        "alegre": pygame.image.load("assets/viejo_alegre.png"),
-        "molesto": pygame.image.load("assets/viejo_molesto.png")
+        "normal": pygame.image.load(os.path.join(ASSETS_DIR, "viejo_normal.png")),
+        "alegre": pygame.image.load(os.path.join(ASSETS_DIR, "viejo_alegre.png")),
+        "molesto": pygame.image.load(os.path.join(ASSETS_DIR, "viejo_molesto.png"))
     },
     "niña": {
-        "normal": pygame.image.load("assets/niña_normal.png"),
-        "alegre": pygame.image.load("assets/niña_alegre.png"),
-        "molesto": pygame.image.load("assets/niña_molesta.png")
+        "normal": pygame.image.load(os.path.join(ASSETS_DIR, "niña_normal.png")),
+        "alegre": pygame.image.load(os.path.join(ASSETS_DIR, "niña_alegre.png")),
+        "molesto": pygame.image.load(os.path.join(ASSETS_DIR, "niña_molesta.png"))
     }
 }
 
 # SONIDOS
 try:
-    sonido_boom = pygame.mixer.Sound("assets/explosion.mp3")
-    sonido_agua = pygame.mixer.Sound("assets/splash.mp3")
+    sonido_boom = pygame.mixer.Sound(os.path.join(ASSETS_DIR, "explosion.mp3"))
+    sonido_agua = pygame.mixer.Sound(os.path.join(ASSETS_DIR, "splash.mp3"))
 except:
     sonido_boom = None
     sonido_agua = None
@@ -96,7 +100,7 @@ def guardar_historial(nombre, intentos, resultado):
     try:
         fecha = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         linea = f"JUGADOR: {nombre} | FECHA: {fecha} | INTENTOS: {intentos} | RESULTADO: {resultado}\n"
-        with open("historial.txt", "a") as archivo:
+        with open(os.path.join(BASE_DIR, "historial.txt"), "a") as archivo:
             archivo.write(linea)
     except Exception as e:
         print(f"Error guardando archivo: {e}")
