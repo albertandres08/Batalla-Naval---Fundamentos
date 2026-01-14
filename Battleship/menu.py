@@ -1,7 +1,7 @@
 import pygame, sys, botones, main
 from botones import Botón 
 
-# --- CONFIGURACIÓN INICIAL ---
+#--- Configuracionn Inicial ---
 pygame.init()
 icono = pygame.image.load("assets/Icono-Battleship.png")
 pygame.display.set_icon(icono)
@@ -9,15 +9,15 @@ ventana = pygame.display.set_mode((960,540))
 pygame.display.set_caption("Battleship: Batalla Naval")
 reloj = pygame.time.Clock()
 
-# --- CARGA DE RECURSOS ---
-# --- IMÁGENES DE INTRODUCCIÓN ---
+#--- CARGA DE RECURSOS ---
+#--- IMÁGENES DE INTRODUCCIÓN ---
 logo_ucab = pygame.image.load("assets/Logo-UCAB.jpeg").convert()
 logo_ucab = pygame.transform.scale(logo_ucab, (960, 540))
 
 logo_pygame = pygame.image.load("assets/Logo-Pygame.jpeg").convert()
 logo_pygame = pygame.transform.scale(logo_pygame, (960, 540))
 
-# Superficie para el efecto de fundido (negra)
+#Superficie para el efecto de fundido (negra)
 fundido = pygame.Surface((960, 540))
 fundido.fill((255, 255, 255))
 
@@ -34,27 +34,27 @@ HISTORIAL_img = Botón("assets/Boton-HISTORIAL.png", (480, 338), (231, 68), "ass
 INSTRUCCIONES_img = Botón("assets/Boton-INSTRUCCIONES.png", (480, 411), (231, 68), "assets/golpe_en_madera.mp3")
 SALIR_img = Botón("assets/Boton-SALIR.png", (480, 484), (231, 68), "assets/golpe_en_madera.mp3")
 
-# --- TEXTOS Y FUNCIONES---
+#--- TEXTOS y FUNCIONES---
 def mostrar_introduccion():
     """Muestra intros con efecto fade-in/out sin posibilidad de saltar"""
     logos = [logo_ucab, logo_pygame]
     
     for imagen in logos:
-        # --- FADE IN (Aparecer) ---
-        for alpha in range(255, -1, -5): # De 255 (negro) a 0 (transparente)
+        #--- FADE IN (Aparecer) ---
+        for alpha in range(255, -1, -5): #De 255 (negro) a 0 (transparente)
             ventana.blit(imagen, (0, 0))
             fundido.set_alpha(alpha)
             ventana.blit(fundido, (0, 0))
             pygame.display.update()
             reloj.tick(60)
-            # Procesar eventos mínimos para que Windows no diga "No responde"
+            #Procesar eventos mínimos para que Windows no diga "No responde"
             pygame.event.pump() 
 
-        # --- TIEMPO DE ESPERA (Imagen visible) ---
-        pygame.time.delay(1500) # 1.5 segundos visible
+        #--- TIEMPO DE ESPERA (Imagen visible) ---
+        pygame.time.delay(1500) #1.5 segundos visible
 
-        # --- FADE OUT (Desaparecer) ---
-        for alpha in range(0, 256, 5): # De 0 (transparente) a 255 (negro)
+        #--- FADE OUT (Desaparecer) ---
+        for alpha in range(0, 256, 5): #De 0 (transparente) a 255 (negro)
             ventana.blit(imagen, (0, 0))
             fundido.set_alpha(alpha)
             ventana.blit(fundido, (0, 0))
@@ -65,7 +65,7 @@ def mostrar_introduccion():
 def mostrar_historial():
     """Nueva función para visualizar los mejores puntajes en pantalla"""
     viendo = True
-    # Intentamos leer el archivo de mejores puntajes
+    #Intentamos leer el archivo de mejores puntajes
     try:
         with open("mejores_puntajes.txt", "r", encoding="utf-8") as archivo:
             lineas_historial = archivo.readlines()
@@ -83,15 +83,15 @@ def mostrar_historial():
         ventana.blit(fondo_oscuro_img, (0, 0))
         
         y_temp = 50
-        # Renderizamos cada línea del archivo [cite: 1, 2, 3]
+        #Renderizamos cada línea del archivo [cite: 1, 2, 3]
         for linea in lineas_historial:
-            # Limpiamos saltos de línea para evitar caracteres extraños
+            #Limpiamos saltos de línea para evitar caracteres extraños
             linea_limpia = linea.strip()
             texto_surface = main.fuente.render(linea_limpia, True, (255, 255, 255))
             ventana.blit(texto_surface, (50, y_temp))
-            y_temp += 35 # Espaciado entre líneas
+            y_temp += 35 #Espaciado entre líneas
             
-        # Mensaje de instrucción para volver
+        #Mensaje de instrucción para volver
         footer = main.fuente.render("PULSA ENTER PARA VOLVER AL MENÚ", True, (255, 255, 0))
         ventana.blit(footer, (ANCHO_CENTRO := 300, 500))
         
@@ -165,7 +165,7 @@ lineas_en = [
 
 def mostrar_instrucciones():
     viendo = True
-    pagina = 0 # 0-1: Español, 2-3: Inglés
+    pagina = 0 #0-1: Español, 2-3: Inglés
     while viendo:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -180,7 +180,7 @@ def mostrar_instrucciones():
 
         ventana.blit(fondo_oscuro_img, (0, 0))
         
-        # Lógica de división: 15 líneas por página aproximadamente
+        #Lógica de división: 15 líneas por página aproximadamente
         if pagina == 0:
             texto_a_mostrar = lineas_es[:15]
             ayuda_txt = "PÁGINA 1/4 (ES) | ESPACIO: Siguiente | ENTER: Volver"
@@ -204,14 +204,14 @@ def mostrar_instrucciones():
         ventana.blit(footer, (200, 500))
         pygame.display.flip()
 
-# Leer historial una vez al inicio
+#Leer historial una vez al inicio
 try:
     with open("historial.txt", "r") as archivo:
         historial = archivo.read()
 except:
     historial = "No hay historial aún."
 
-# --- BUCLE PRINCIPAL DEL MENU ---
+#--- BUCLE PRINCIPAL DEL MENU ---
 def main_menu():
     corriendo = True
     while corriendo:
