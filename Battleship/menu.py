@@ -1,37 +1,71 @@
 import pygame, sys, botones, main
-import os
 from botones import Botón 
-
-# --- CONFIGURACIÓN DE RUTAS ---
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ASSETS_DIR = os.path.join(BASE_DIR, "assets")
 
 # --- CONFIGURACIÓN INICIAL ---
 pygame.init()
 ventana = pygame.display.set_mode((960,540))
 pygame.display.set_caption("Battleship: Batalla Naval")
 reloj = pygame.time.Clock()
+
 # --- CARGA DE RECURSOS ---
-fondo_img = pygame.image.load(os.path.join(ASSETS_DIR, "Fondo-Menu.png")).convert()  
+# --- IMÁGENES DE INTRODUCCIÓN ---
+logo_ucab = pygame.image.load("assets/Logo-UCAB.jpeg").convert()
+logo_ucab = pygame.transform.scale(logo_ucab, (960, 540))
+
+logo_pygame = pygame.image.load("assets/Logo-Pygame.jpeg").convert()
+logo_pygame = pygame.transform.scale(logo_pygame, (960, 540))
+
+# Superficie para el efecto de fundido (negra)
+fundido = pygame.Surface((960, 540))
+fundido.fill((255, 255, 255))
+
+fondo_img = pygame.image.load("assets/Fondo-Menu.png").convert()  
 fondo_img = pygame.transform.scale(fondo_img, (960,540))
-fondo_oscuro_img = pygame.image.load(os.path.join(ASSETS_DIR, "Fondo-Oscuro-Menu.png")).convert()   
+fondo_oscuro_img = pygame.image.load("assets/Fondo-Oscuro-Menu.png").convert()   
 fondo_oscuro_img = pygame.transform.scale(fondo_oscuro_img, (960,540))
 
-logo_img = pygame.image.load(os.path.join(ASSETS_DIR, "Battleship-Logo.png")).convert_alpha() 
+logo_img = pygame.image.load("assets/Battleship-Logo.png").convert_alpha() 
 logo_img = pygame.transform.scale(logo_img, (455, 226))
 
-NUEVA_PARTIDA_img = Botón(os.path.join(ASSETS_DIR, "Boton-NUEVA PARTIDA.png"), (480, 265), (231, 68), os.path.join(ASSETS_DIR, "golpe_en_madera.mp3"))
-HISTORIAL_img = Botón(os.path.join(ASSETS_DIR, "Boton-HISTORIAL.png"), (480, 338), (231, 68), os.path.join(ASSETS_DIR, "golpe_en_madera.mp3"))
-INSTRUCCIONES_img = Botón(os.path.join(ASSETS_DIR, "Boton-INSTRUCCIONES.png"), (480, 411), (231, 68), os.path.join(ASSETS_DIR, "golpe_en_madera.mp3"))
-SALIR_img = Botón(os.path.join(ASSETS_DIR, "Boton-SALIR.png"), (480, 484), (231, 68), os.path.join(ASSETS_DIR, "golpe_en_madera.mp3"))
+NUEVA_PARTIDA_img = Botón("assets/Boton-NUEVA PARTIDA.png", (480, 265), (231, 68), "assets/golpe_en_madera.mp3")
+HISTORIAL_img = Botón("assets/Boton-HISTORIAL.png", (480, 338), (231, 68), "assets/golpe_en_madera.mp3")
+INSTRUCCIONES_img = Botón("assets/Boton-INSTRUCCIONES.png", (480, 411), (231, 68), "assets/golpe_en_madera.mp3")
+SALIR_img = Botón("assets/Boton-SALIR.png", (480, 484), (231, 68), "assets/golpe_en_madera.mp3")
 
 # --- TEXTOS Y FUNCIONES---
+def mostrar_introduccion():
+    """Muestra intros con efecto fade-in/out sin posibilidad de saltar"""
+    logos = [logo_ucab, logo_pygame]
+    
+    for imagen in logos:
+        # --- FADE IN (Aparecer) ---
+        for alpha in range(255, -1, -5): # De 255 (negro) a 0 (transparente)
+            ventana.blit(imagen, (0, 0))
+            fundido.set_alpha(alpha)
+            ventana.blit(fundido, (0, 0))
+            pygame.display.update()
+            reloj.tick(60)
+            # Procesar eventos mínimos para que Windows no diga "No responde"
+            pygame.event.pump() 
+
+        # --- TIEMPO DE ESPERA (Imagen visible) ---
+        pygame.time.delay(1500) # 1.5 segundos visible
+
+        # --- FADE OUT (Desaparecer) ---
+        for alpha in range(0, 256, 5): # De 0 (transparente) a 255 (negro)
+            ventana.blit(imagen, (0, 0))
+            fundido.set_alpha(alpha)
+            ventana.blit(fundido, (0, 0))
+            pygame.display.update()
+            reloj.tick(60)
+            pygame.event.pump()
+
 def mostrar_historial():
     """Nueva función para visualizar los mejores puntajes en pantalla"""
     viendo = True
     # Intentamos leer el archivo de mejores puntajes
     try:
-        with open(os.path.join(BASE_DIR, "mejores_puntajes.txt"), "r", encoding="utf-8") as archivo:
+        with open("mejores_puntajes.txt", "r", encoding="utf-8") as archivo:
             lineas_historial = archivo.readlines()
     except FileNotFoundError:
         lineas_historial = ["No hay registros de puntajes aún."]
@@ -164,13 +198,13 @@ def mostrar_instrucciones():
             ventana.blit(texto_surface, (40, y_temp))
             y_temp += 30
             
-        footer = main.fuente.render(ayuda_txt, True, (255, 255, 0))
+        footer = main.fuente.render(ayuda_txt, True, (0, 255, 200))
         ventana.blit(footer, (200, 500))
         pygame.display.flip()
 
 # Leer historial una vez al inicio
 try:
-    with open(os.path.join(BASE_DIR, "historial.txt"), "r") as archivo:
+    with open("historial.txt", "r") as archivo:
         historial = archivo.read()
 except:
     historial = "No hay historial aún."
@@ -187,7 +221,7 @@ def main_menu():
         if NUEVA_PARTIDA_img.es_presionado():
             main.main() 
             try:
-                with open(os.path.join(BASE_DIR, "historial.txt"), "r") as archivo:
+                with open("historial.txt", "r") as archivo:
                     global historial
                     historial = archivo.read()
             except: pass
@@ -215,4 +249,5 @@ def main_menu():
     sys.exit()
 
 if __name__ == "__main__":
+    mostrar_introduccion()
     main_menu()
