@@ -1,10 +1,50 @@
-#Modulo donde se encuentran los datos que usamos para el jeugo
-color_agua = (52, 152, 219)     # Azul claro
-color_barco = (127, 140, 141)   # Gris metálico
-color_tocado = (231, 76, 60)    # Rojo
-color_fallo = (236, 240, 241)   # Blanco/Gris claro
-color_texto = (255, 255, 255)   # Blanco
-color_borde = (41, 128, 185)    # Azul oscuro para la grilla
+#Modulo donde se encuentran los datos que usamos para el juego
+
+#LISTA DE COLORES RGB 
+rojo = (231, 76, 60)
+naranja = (255,165,0)
+amarillo = (255,255,0)
+verde_claro = (0,255,0)
+verde_oscuro = (0,128,0)
+cian = (0, 255, 200)
+azul_claro = (52, 152, 219) 
+azul_oscuro = (41, 128, 185)
+lila = (186,85,211)
+purpura = (128,0,128)
+rosado = (255,105,180)
+fucsia = (255,20,147)
+gris_metalico = (127, 140, 141)
+gris_claro = (236, 240, 241)
+blanco = (255, 255, 255)
+negro = (20, 20, 20)
+
+#Asignamos colores (cambiar el nombre del color por uno de los de arriba)
+
+#Colores del tablero:
+color_agua = azul_claro     
+color_barco = gris_metalico   
+color_tocado = rojo   
+color_fallo = gris_claro  
+color_texto = blanco  
+
+#Colores de las escenas con personajes: 
+color_fondo_dialogo = negro
+color_contorno_dialogo = cian 
+color_borde = azul_oscuro    
+color_ayudas = cian
+color_dialogo = blanco
+
+#Color del historial de puntajes
+color_historial = blanco
+
+#Colores del menu de nombre
+color_fondo_nombre = negro
+color_nombre = cian
+
+#Colores de la pantalla de victoria
+color_fondo_victoria = negro
+color_texto_victoria = verde_claro
+color_texto_regreso = blanco
 
 # 3. Configuración del Tablero
 filas = 10
