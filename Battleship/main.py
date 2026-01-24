@@ -72,8 +72,8 @@ def ingresar_nombre(ventana):
     pygame.display.set_caption(f"Batalla Naval")
     nombre = ""
     escribiendo = True
-    COLOR_FONDO = (20, 20, 20)
-    COLOR_TEXTO = (0, 255, 200)
+    COLOR_FONDO = datos.color_fondo_nombre
+    COLOR_TEXTO = datos.color_nombre
 
     while escribiendo:
         ventana.fill(COLOR_FONDO)
@@ -88,7 +88,7 @@ def ingresar_nombre(ventana):
                 else:
                     if len(nombre) < 12: nombre += evento.unicode
 
-        txt_instruccion = fuente.render("INGRESA TU NOMBRE Y PULSA ENTER:", True, (150, 150, 150))
+        txt_instruccion = fuente.render("INGRESA TU NOMBRE Y PULSA ENTER:", True, (datos.color_ayudas))
         txt_nombre = fuente.render(nombre, True, COLOR_TEXTO)
         rect_ins = txt_instruccion.get_rect(center=(ANCHO_PANTALLA//2, ALTO_PANTALLA//2 - 50))
         rect_nom = txt_nombre.get_rect(center=(ANCHO_PANTALLA//2, ALTO_PANTALLA//2 + 20))
@@ -245,9 +245,9 @@ def main():
                 escena_actual += 1
                 
                 if escena_actual >= max_escenas:
-                    ventana.fill(NEGRO)
-                    txt_fin = fuente_grande.render("¡MISIÓN CUMPLIDA!", True, VERDE_EXITO)
-                    txt_sub = fuente.render("Has salvado los ODS. Volviendo al menú...", True, BLANCO)
+                    ventana.fill(datos.color_fondo_victoria)
+                    txt_fin = fuente_grande.render("¡MISIÓN CUMPLIDA!", True, datos.color_texto_victoria)
+                    txt_sub = fuente.render("Has salvado los ODS. Volviendo al menú...", True, datos.color_texto_regreso)
                     rect_fin = txt_fin.get_rect(center=(ANCHO_PANTALLA//2, ALTO_PANTALLA//2 - 20))
                     rect_sub = txt_sub.get_rect(center=(ANCHO_PANTALLA//2, ALTO_PANTALLA//2 + 30))
                     ventana.blit(txt_fin, rect_fin)
