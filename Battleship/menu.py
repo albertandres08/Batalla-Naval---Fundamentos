@@ -1,3 +1,4 @@
+import datos
 import pygame, sys, botones, main
 from botones import Botón 
 
@@ -80,9 +81,6 @@ def mostrar_historial():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit(); sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key in [pygame.K_RETURN, pygame.K_ESCAPE]:
-                    viendo = False
 
         ventana.blit(fondo_oscuro_img, (0, 0))
         
@@ -91,7 +89,7 @@ def mostrar_historial():
         for linea in lineas_historial:
             # Limpiamos saltos de línea para evitar caracteres extraños
             linea_limpia = linea.strip()
-            texto_surface = main.fuente.render(linea_limpia, True, (255, 255, 255))
+            texto_surface = main.fuente.render(linea_limpia, True, (datos.color_historial))
             ventana.blit(texto_surface, (50, y_temp))
             y_temp += 35 # Espaciado entre líneas
             
@@ -101,8 +99,6 @@ def mostrar_historial():
             viendo = False
 
         # Mensaje de instrucción para volver
-        footer = main.fuente.render("PULSA ENTER PARA VOLVER AL MENÚ", True, (255, 255, 0))
-        ventana.blit(footer, (ANCHO_CENTRO := 300, 500))
         VOLVER_AL_MENU_img.draw(ventana)
         pygame.display.flip()
 
@@ -170,4 +166,3 @@ def main_menu():
 if __name__ == "__main__":
     mostrar_introduccion()
     main_menu()
-
