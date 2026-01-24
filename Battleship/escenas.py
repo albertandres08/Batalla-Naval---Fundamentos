@@ -1,5 +1,6 @@
 import pygame
 import sys
+import datos
 
 #--- Definiendo las Dimensiones ---
 ANCHO_PANTALLA = 960
@@ -79,14 +80,14 @@ def mostrar_escena(ventana, fuente, num_escena):
 
             #Cuadro de texto ajustado al ancho de 940
             rect_txt = pygame.Rect(20, 420, 900, 120) 
-            pygame.draw.rect(ventana, (30, 30, 30), rect_txt)
-            pygame.draw.rect(ventana, (0, 255, 200), rect_txt, 3)
+            pygame.draw.rect(ventana, (datos.color_fondo_dialogo), rect_txt)
+            pygame.draw.rect(ventana, (datos.color_contorno_dialogo), rect_txt, 3)
 
             ayuda_txt = ("Haga clic para continuar.")
 
             #Texto
-            footer = fuente.render(ayuda_txt, True, (0, 255, 200))
-            txt_surface = fuente.render(dialogos[num_escena][clic_actual], True, (255, 255, 255))
+            footer = fuente.render(ayuda_txt, True, (datos.color_ayudas))
+            txt_surface = fuente.render(dialogos[num_escena][clic_actual], True, (datos.color_dialogo))
             ventana.blit(footer,(650,500))
             ventana.blit(txt_surface, (40, 450))
             
