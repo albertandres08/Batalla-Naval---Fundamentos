@@ -234,7 +234,7 @@ def main():
                     
                     if valor == datos.tocado: color = datos.color_tocado 
                     elif valor == datos.fallo: color = datos.color_fallo 
-                    else: color = AZUL_MAR 
+                    else: color = datos.color_agua 
                     
                     #Dibujar cuadro con borde para que se vea mejor sobre el fondo
                     pygame.draw.rect(ventana, color, [x, y, TAMANO_CELDA, TAMANO_CELDA])
