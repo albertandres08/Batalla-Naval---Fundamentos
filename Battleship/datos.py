@@ -19,9 +19,9 @@ blanco = (255, 255, 255)
 negro = (20, 20, 20)
 
 #Asignamos colores (cambiar el nombre del color por uno de los de arriba)
-
+# ACA PUEDES MODIFICAR LOS COLORES USADOS EN LA VENTANA GRAFICA
 #Colores del tablero:
-color_agua = azul_claro     
+color_agua = azul_claro #Ejemplo: El de la Matriz del Juego 
 color_barco = gris_metalico   
 color_tocado = rojo   
 color_fallo = gris_claro  
