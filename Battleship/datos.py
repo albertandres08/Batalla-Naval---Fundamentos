@@ -63,26 +63,49 @@ fallo = 2    # Disparaste al agua
 tocado = 3   # Le diste a un barco
 hundido = 4  # El barco ya no existe
 
-# 5. Definición de la Flota (Módulo A: Backend)
-flota = [
-    # 1 Portaaviones de tamaño 4
-    {"nombre": "Portaaviones", "tamaño": 4, "simbolo": "P", "hundido": 4},
+# --------------------------- Numeros de Barcos en la Flota ---------------------------
+#ACA ES DONDE PODRAS MODIFICAR LA CANTIDAD DE BARCOS SEGUN TU GUSTO DENTRO DE LOS LIMITES ESTABLECIDOS ABAJO.
+Numero_de_Portaviones = 3
+Numero_de_Acorazados = 2
+Numero_de_Subamarinos = 1
+Numero_de_Destructores = 0
+
+# =============================================================================
+# ⚠️ ASPECTOS A TENER EN CUENTA: LÍMITES DE LA FLOTA (TABLERO 10x10)
+# =============================================================================
+# REGLA CRÍTICA: La suma de casillas ocupadas NO debe superar 40.
+# CONSECUENCIA: Si superas 40, el juego entrará en bucle infinito y se congelará.
+#
+# CÁLCULO DE ESPACIO OCUPADO:
+# (N° Portaaviones * 4) + (N° Acorazados * 3) + (N° Submarinos * 2) + (N° Destructores * 1)
+#
+# LÍMITES HARDWARE/LOGICA:
+# 1. Portaaviones (4 celdas): MÁXIMO 3. (Más de 3 bloquea el algoritmo).
+# 2. Espacio Total: Ideal entre 20 y 30 casillas. (Máximo absoluto: 40).
+#
+# Aqui hay algunos ejemplos que puedes usar para colocar la cantidad de cada barco y aseurar una buena experiencia:
+# - Balanceado: 1 Port, 2 Acor, 3 Sub, 4 Dest (Total: 20 casillas / 20%)
+# - Guerra:     2 Port, 3 Acor, 4 Sub, 5 Dest (Total: 30 casillas / 30%)
+# - Extremo:    3 Port, 2 Acor, 3 Sub, 5 Dest (Total: 29 casillas / 29%)
+# =============================================================================
+
+#Definición de la Flota (Módulo A: Backend)
+flota = []
+#Portaavinones
+for p in range(Numero_de_Portaviones):
+    flota.append({"nombre": "Portaaviones", "tamaño": 4, "simbolo": f"P{p+1}", "hundido": 4})
+
+#Acorazados
+for a in range(Numero_de_Acorazados):
+    flota.append({"nombre": "Acorazado", "tamaño": 3, "simbolo": f"A{a+1}", "hundido": 3})
     
-    # 2 Acorazados de tamaño 3
-    {"nombre": "Acorazado",    "tamaño": 3, "simbolo": "A1", "hundido": 3},
-    {"nombre": "Acorazado",    "tamaño": 3, "simbolo": "A2", "hundido": 3},
-    
-    # 3 Submarinos de tamaño 2
-    {"nombre": "Submarino",    "tamaño": 2, "simbolo": "S1", "hundido": 2},
-    {"nombre": "Submarino",    "tamaño": 2, "simbolo": "S2", "hundido": 2},
-    {"nombre": "Submarino",    "tamaño": 2, "simbolo": "S3", "hundido": 2},
-    
-    # 4 Destructores de tamaño 1
-    {"nombre": "Destructor",   "tamaño": 1, "simbolo": "D1", "hundido": 1},
-    {"nombre": "Destructor",   "tamaño": 1, "simbolo": "D2", "hundido": 1},
-    {"nombre": "Destructor",   "tamaño": 1, "simbolo": "D3", "hundido": 1},
-    {"nombre": "Destructor",   "tamaño": 1, "simbolo": "D4", "hundido": 1}
-]
+#Submarinos
+for s in range(Numero_de_Subamarinos):
+    flota.append({"nombre": "Submarino", "tamaño": 2, "simbolo": f"S{s+1}", "hundido": 2})
+
+#Destructores
+for d in range(Numero_de_Destructores):
+    flota.append({"nombre": "Destructor", "tamaño": 1, "simbolo": f"D{d+1}", "hundido": 1})
 
 # Calculamos automáticamente cuántas celdas de barco hay en total (Debe dar 20)
 sin_flota = sum(barco["tamaño"] for barco in flota)
