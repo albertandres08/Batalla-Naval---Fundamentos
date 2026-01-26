@@ -30,8 +30,26 @@ ANCHO_PANTALLA = 960
 ALTO_PANTALLA = 540
 ventana = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
 
-TAMANO_CELDA = 40 
-MARGEN = 5
+TAMANO_CELDA = 40 #ACA PODRAS MODIFICAR EL TAMAÑO DE LA CELDA (Recomendado: Min 25 - Max 40)
+MARGEN = 5#Espacio entre cuadros (Recomendado: 5)
+
+# =============================================================================
+# ⚠️ GUÍA DE CONFIGURACIÓN VISUAL: TAMAÑO DE CELDAS
+# =============================================================================
+# Aquí puedes ajustar qué tan grandes se ven los cuadros en la pantalla.
+#
+# LA RESOLUCIÓN ACTUAL: 960 x 540 píxeles.
+#
+# ⛔ LÍMITE MÁXIMO: 40 píxeles.
+#    - Si pones 41 o más, el tablero enemigo se saldrá de la pantalla.
+#    - Si pones 45 o más, los tableros se superpondrán o taparán el texto.
+#
+# ✅ RANGO SEGURO: De 25 a 40.
+#    - 40: Tamaño actual (Se ve grande y claro, ocupa toda la pantalla).
+#    - 30: Modo "Compacto" (Los tableros se ven más pequeños y separados).
+#    - 20: Demasiado pequeño (Difícil hacer clic con el mouse).
+#
+# =============================================================================
 
 #--- CARGA DE ACTIVOS VISUALES ADICIONALES ---
 
